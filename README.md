@@ -1,6 +1,6 @@
-#Project Startup Instructions
+# Project Startup Instructions
 
-##For React:
+## For React:
 
 Ensure to fetch most recent version (not always needed).
 
@@ -12,7 +12,7 @@ Run ```npm run serve``` to start the application.
 
 The command line will give you a URL to open once the application is functioning.
 
-##For Django:
+## For Django:
 
 Ensure to fetch most recent version (not always needed).
 
