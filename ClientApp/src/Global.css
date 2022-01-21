@@ -1,0 +1,12 @@
+﻿:root {
+    --main-bg-color: #3d3d3d;
+    --default-text-color: #7d5fff;
+}
+
+body {
+    background-color: var(--main-bg-color);
+}
+
+h1 {
+    color: var(--default-text-color);
+}

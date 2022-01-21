@@ -1,7 +1,8 @@
 ﻿import ReactDOM from 'react-dom';
 import React from 'react';
+import './Global.css';
 
-const info = (<h1>Initialized React App</h1>);
+const info = (<h1 className="background">Initialized React App</h1>);
 
 ReactDOM.render(
     info,
