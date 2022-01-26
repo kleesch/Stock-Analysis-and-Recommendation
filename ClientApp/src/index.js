@@ -1,10 +1,11 @@
-﻿import ReactDOM from 'react-dom';
+﻿import 'bootstrap/dist/css/bootstrap.min.css';
+import ReactDOM from 'react-dom';
 import React from 'react';
 import './Global.css';
+import App from "./App";
 
-const info = (<h1 className="background">Initialized React App</h1>);
 
 ReactDOM.render(
-    info,
+    <App/>,
     document.getElementById('app')
 );
