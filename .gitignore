@@ -1,1 +1,5 @@
 ﻿/ClientApp/node_modules/
+/SMBackend/backend/__pycache__/
+/SMBackend/backend/migrations/__pycache__/
+/SMBackend/db.sqlite3
+*.sqlite3
