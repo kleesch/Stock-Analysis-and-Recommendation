@@ -10,13 +10,9 @@ export class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedin: false,
+            loggedIn: false,
             usernameInput: "",
-            loginAttemptResponses: [{
-                title: "Invalid Login Attempt",
-                description: "the username or password you entered is incorrect",
-                success: false
-            }],
+            loginAttemptResponses: [],
             passwordInput: ""
         };
     }
@@ -24,11 +20,30 @@ export class Login extends Component {
     async loginButtonPress(){
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'mode': 'no-cors'
+            },
             body: JSON.stringify({name: this.state.usernameInput})
         }
-        let response = await fetch('http://127.0.0.1:8000/persons/getByName/',requestOptions)
-        console.log(response);
+        let response = await fetch('api/persons/getByName/',requestOptions)
+        if (response.status===200){
+            let alerts = this.state.loginAttemptResponses
+            alerts.push({
+                title: "Login Successful",
+                description: "You have been logged in. In the future, you will be redirected home.",
+                success: true
+            })
+            this.setState({loginAttemptResponses: alerts});
+        } else {
+            let alerts = this.state.loginAttemptResponses
+            alerts.push({
+                title: "Invalid Login Attempt",
+                description: "the username or password you entered is incorrect",
+                success: false
+            })
+            this.setState({loginAttemptResponses: alerts});
+        }
     }
 
     removeAlert(index) {
@@ -74,12 +89,12 @@ export class Login extends Component {
                                 <b>Stock Market Management</b>
                             </CardTitle>
                             <div className="loginField">
-                                Username: {this.state.usernameInput}
+                                Username:
                                 <Input placeholder={`Username`} onChange={this.usernameInput.bind(this)}
-                                       value={this.state.userNameInput}/>
+                                       value={this.state.usernameInput}/>
                             </div>
                             <div className="loginField">
-                                Password: {this.state.passwordInput}
+                                Password:
                                 <Input type="password" placeholder={`Password`} onChange={this.passwordInput.bind(this)}
                                        value={this.state.passwordInput}/>
                             </div>
