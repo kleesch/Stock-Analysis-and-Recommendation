@@ -65,8 +65,18 @@ export class Signup extends Component {
                             <CardTitle>
                                 <b>Enter account information</b>
                             </CardTitle>
-                           
-                            
+                            <div className="loginField2">
+                                First Name:
+                                <Input placeholder={`Enter first name`}/>
+                            </div>
+                            <div className="loginField2">
+                                Last Name:
+                                <Input placeholder={`Enter last name`}/>
+                            </div>
+                            <div className="loginField2">
+                                Email address:
+                                <Input placeholder={`Enter email address`}/>
+                            </div>
                             <div className="loginField2">
                                 Username:
                                 <Input placeholder={`Create a username`} onChange={this.usernameInput.bind(this)}
