@@ -33,12 +33,12 @@ export class Signup extends Component {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            URL: 'http://127.0.0.1:8000/api/persons/',
-            data:{
+            body: JSON.stringify({
                 name: this.state.usernameInput,
                 alias: this.state.passwordInput,
-            }
+            })
         }
+        let response = await fetch('api/persons/',requestOptions)
     }
 
   /*  signUp(event) {
@@ -85,7 +85,7 @@ export class Signup extends Component {
                             
                             <div className="loginField2">
                                 Password:
-                                <Input placeholder={`Create a password`} onChange={this.passwordInput.bind(this)}
+                                <Input type="password" placeholder={`Create a password`} onChange={this.passwordInput.bind(this)}
                                        value={this.state.passwordInput}/>
                             </div>
                         
