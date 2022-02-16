@@ -6,16 +6,16 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from .serializers import PersonSerializer
-from .models import Person
+from .models import User
 
 
 class PersonViewSet(viewsets.ModelViewSet):
-    queryset = Person.objects.all().order_by('name')
+    queryset = User.objects.all().order_by('username')
     serializer_class = PersonSerializer
 
     @action(methods=['post'], detail=False)
     def getByName(self, request):
-        person = Person.objects.all().filter(name=request.data["name"])
+        person = User.objects.all().filter(name=request.data["username"])
         if person:
             return Response(status=200, data=True)
         return Response(status=204)
