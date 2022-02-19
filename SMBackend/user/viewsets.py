@@ -13,6 +13,11 @@ class PersonViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('username')
     serializer_class = PersonSerializer
 
+    # POST api/persons/getByName
+    # Returns if a user exists with the given username
+    # Possible Reponses: 200 OK, 204 No Content
+    # TODO: Implement Password Checking
+    # TODO: Implement Session Keys
     @action(methods=['post'], detail=False)
     def getByName(self, request):
         person = User.objects.all().filter(name=request.data["username"])
