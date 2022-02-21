@@ -2,6 +2,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Layout} from "./components/Layout";
 import {Login} from "./components/login/Login";
+import {Home} from "./components/homepage/homepage";
 
 
 export default class App extends Component {
@@ -13,6 +14,7 @@ export default class App extends Component {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={< Login/>}/>
+                        <Route path="/homepage" element={< Home/>}/>
                         <Route path="/*" element={
                             <div className={`text-light`}>
                                 There's nothing here!

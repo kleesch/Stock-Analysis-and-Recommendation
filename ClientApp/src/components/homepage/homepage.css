@@ -1,0 +1,46 @@
+﻿.outerContainer2 {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.innerContainer2 {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.innerContainerItem2 {
+    margin-bottom: 30px;
+}
+
+.loginContainer2 {
+    width: 30%;
+    align-items: center;
+}
+
+.loginCard2 {
+    align-items: center;
+    padding: 15px;
+}
+
+.loginField2 {
+    width: 90%;
+    text-align: left;
+    padding-bottom: 15px;
+}
+
+.ticker {
+    width:90%;
+    display: top;
+    justify-content: center;
+    border-style: solid;
+    margin: 10px;
+}
+.tickerbutton{
+    width:90%;
+    margin: 5px;
+    border-radius: 10px;
+}
