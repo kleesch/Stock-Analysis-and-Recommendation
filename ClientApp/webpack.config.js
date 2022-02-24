@@ -19,5 +19,12 @@ module.exports = {
             }
         ]
     },
-    plugins: [htmlPlugin]
+    plugins: [htmlPlugin],
+    devServer: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8000/',
+            }
+        }
+    }
 };
