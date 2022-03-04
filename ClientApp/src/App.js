@@ -2,11 +2,25 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Layout} from "./components/Layout";
 import {Login} from "./components/login/Login";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 
 export default class App extends Component {
+    
     static displayName = App.name;
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired  };
+    
+      state = {
+        user: this.props.cookies.get("key") || ""
+      };
+      handleCookie = () => {
+        const { cookies } = this.props;
+        cookies.set("key", "value", { path: "/" }); // setting the cookie    this.setState({ user: cookies.get("user") });
+      };
+                
     render() {
         return (
             <Layout>
