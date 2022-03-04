@@ -22,7 +22,7 @@ class PersonViewSet(viewsets.ModelViewSet):
     permission_classes=[UserPermission]
 
     # POST api/persons/login
-    # Returns if a user exists with the given username and password
+    # Returns a user's token upon successful login request
     # Possible Reponses: 200 OK, 204 No Content, 400 Bad Request
     @action(methods=['post'], detail=False, permission_classes=[AllowAny])
     def login(self, request):
