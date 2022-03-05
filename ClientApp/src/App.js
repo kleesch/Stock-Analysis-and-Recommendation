@@ -1,12 +1,23 @@
 ﻿import React, {Component} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Layout} from "./components/Layout";
-import {Login} from "./components/login/Login";
+import { Login } from "./components/login/Login";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 
-export default class App extends Component {
+class App extends Component {
+    
     static displayName = App.name;
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired  
+    };
+
+    constructor(props){
+        super(props);
+    }
+                
     render() {
         return (
             <Layout>
@@ -24,3 +35,5 @@ export default class App extends Component {
         );
     }
 }
+
+export default withCookies(App);
