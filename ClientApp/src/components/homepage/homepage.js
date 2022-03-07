@@ -1,5 +1,5 @@
 ﻿import React, {Component} from "react";
-import {Button, Card, CardTitle, Input, Alert} from "reactstrap";
+import {Button, Card, CardTitle, Input, Alert, Table} from "reactstrap";
 import "./homepage.css";
 
 
@@ -49,9 +49,11 @@ export class Home extends Component {
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
                             <CardTitle>
                                 <b>Enter stock ticker</b>
-                                <Input placeholder={``} onChange={this.tickerInput.bind(this)}
+                                <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
                                        value={this.state.tickerInput}> </Input>
                                 <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>
+                                
+                               
                             </CardTitle>
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
@@ -61,6 +63,7 @@ export class Home extends Component {
                                     <h2 className="card-title p-2">Stock ticker: <p><b>{this.state.retrievedStock}</b></p>
                                     </h2>
                                 </div>
+                                
                                 <ul className="lists">
                                     <li className="listitems"><strong>Current share price: </strong> <span
                                         className="text-black">{this.state.price}</span></li>
@@ -68,14 +71,81 @@ export class Home extends Component {
                                         className="text-black">{this.state.high}</span></li>
                                     <li className="listitems"><strong>52 week low: </strong> <span
                                         className="text-black">{this.state.low}</span></li>
-
-
                                 </ul>
 
 
                             </CardTitle>
+                            
+                            <Table
+>
+  <thead>
+    <tr>
+      <th>
+        #
+      </th>
+      <th>
+        Stock Ticker
+      </th>
+      <th>
+        Price
+      </th>
+      <th>
+        Weekly High
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">
+        1
+      </th>
+      <td>
+      {this.state.retrievedStock}
+      </td>
+      <td>
+      {this.state.price}
+      </td>
+      <td>
+      {this.state.high}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">
+        2
+      </th>
+      <td>
+      {this.state.retrievedStock}
+      </td>
+      <td>
+      {this.state.price}
+      </td>
+      <td>
+      {this.state.high}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">
+        3
+      </th>
+      <td>
+      {this.state.retrievedStock}
+      </td>
+      <td>
+      {this.state.price}
+      </td>
+      <td>
+      {this.state.high}
+      </td>
+    </tr>
+  </tbody>
+</Table>
                         </Card>
+                        
                     </div>
+                    <Card color={`secondary`} inverse className="newcard">Insert chart here
+                    <img className="img1" src="https://media.ycharts.com/charts/c511f80ec356858029d034295d969d3d.png" title="Title of image" alt="alt text here"/>
+
+                    </Card>
                 </div>
             </div>
 

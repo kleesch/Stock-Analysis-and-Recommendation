@@ -1,23 +1,25 @@
 ﻿.outerContainer2 {
-    height: 100vh;
+    height: 110vh;
     margin: 0;
     display: flex;
     align-items: center;
+    
 }
 
 .innerContainer2 {
     width: 100%;
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    
 }
 
 .innerContainerItem2 {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .loginContainer2 {
-    width: 30%;
+    width: 40%;
     align-items: center;
 }
 
@@ -40,7 +42,25 @@
     margin: 10px;
 }
 .tickerbutton{
-    width:90%;
+    width: 90%;
     margin: 5px;
     border-radius: 10px;
+}
+.firstone {
+    width: 100%;
+    height: 30px;
+
+}
+.newcard{
+    justify-content: right;
+    width: 100%;
+    margin: 20px;
+    margin-top: 0px;
+
+    
+
+
+}
+.img1{
+    margin:5px;
 }
