@@ -12,6 +12,12 @@ export class Home extends Component {
             price: 0,
             high: 0,
             low: 0,
+            watchlistStocks: [
+                //{ticker: "IBM", price: 0.00, high: 0.00},
+                {ticker:"None", price:0, high:0},
+                {ticker:"None", price:0, high:0},
+                {ticker:"None", price:0, high:0}
+            ]
         };
     }
 
@@ -31,12 +37,14 @@ export class Home extends Component {
         if (response.status===200) {
             response = await response.json();
             response= await JSON.parse(response);
-            console.log(response[0]);
+            const oldSearch={ticker: input, price: parseFloat(response[response.length-1].fields.close,2), high: parseFloat(response[response.length-1].fields.high,2)};
+            let oldWatchlist=this.state.watchlistStocks;
+            oldWatchlist.splice(0,0,oldSearch);
+            oldWatchlist.splice(3,1);
+            console.log(response[response.length-1]);
             this.setState({
                 retrievedStock: input,
-                price: parseFloat(response[0].fields.close,2),
-                high: parseFloat(response[0].fields.high,2),
-                low: parseFloat(response[0].fields.low,2)
+                watchlistStocks: oldWatchlist,
             })
         }
     }
@@ -101,13 +109,13 @@ export class Home extends Component {
         1
       </th>
       <td>
-      {this.state.retrievedStock}
+      {this.state.watchlistStocks[0].ticker}
       </td>
       <td>
-      {this.state.price}
+      {this.state.watchlistStocks[0].price}
       </td>
       <td>
-      {this.state.high}
+      {this.state.watchlistStocks[0].high}
       </td>
     </tr>
     <tr>
@@ -115,13 +123,13 @@ export class Home extends Component {
         2
       </th>
       <td>
-      {this.state.retrievedStock}
+      {this.state.watchlistStocks[1].ticker}
       </td>
       <td>
-      {this.state.price}
+      {this.state.watchlistStocks[1].price}
       </td>
       <td>
-      {this.state.high}
+      {this.state.watchlistStocks[1].high}
       </td>
     </tr>
     <tr>
@@ -129,13 +137,13 @@ export class Home extends Component {
         3
       </th>
       <td>
-      {this.state.retrievedStock}
+      {this.state.watchlistStocks[2].ticker}
       </td>
       <td>
-      {this.state.price}
+      {this.state.watchlistStocks[2].price}
       </td>
       <td>
-      {this.state.high}
+      {this.state.watchlistStocks[2].high}
       </td>
     </tr>
   </tbody>
