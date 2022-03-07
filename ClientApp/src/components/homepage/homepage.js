@@ -59,11 +59,12 @@ export class Home extends Component {
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
                             <CardTitle>
                                 <b>Stock Market Management</b>
-                                <div className="card-body d-flex flex-wrap">
+
+                                {/* <div className="card-body d-flex flex-wrap">
                                     <h2 className="card-title p-2">Stock ticker: <p><b>{this.state.retrievedStock}</b></p>
                                     </h2>
                                 </div>
-                                
+   
                                 <ul className="lists">
                                     <li className="listitems"><strong>Current share price: </strong> <span
                                         className="text-black">{this.state.price}</span></li>
@@ -71,12 +72,12 @@ export class Home extends Component {
                                         className="text-black">{this.state.high}</span></li>
                                     <li className="listitems"><strong>52 week low: </strong> <span
                                         className="text-black">{this.state.low}</span></li>
-                                </ul>
+                                </ul> */}
 
 
                             </CardTitle>
                             
-                            <Table
+                            <Table className="text-light"
 >
   <thead>
     <tr>
