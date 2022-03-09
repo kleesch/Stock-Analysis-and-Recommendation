@@ -12,7 +12,7 @@ export class TopBar extends Component {
                 </NavbarBrand>
                 <Nav className={`me-auto`} navbar>
                     <NavItem>
-                        <NavLink href={`/`}>
+                        <NavLink href={`/homepage`}>
                             Home
                         </NavLink>
                     </NavItem>

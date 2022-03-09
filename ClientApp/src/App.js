@@ -4,6 +4,8 @@ import {Layout} from "./components/Layout";
 import { Login } from "./components/login/Login";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
+import { Signup } from "./components/signup/signup";
+import { Home } from "./components/homepage/homepage";
 
 
 class App extends Component {
@@ -24,6 +26,9 @@ class App extends Component {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={< Login/>}/>
+                        <Route path="/signup" element={< Signup/>}/>
+                        <Route path="/homepage" element={< Home/>}/>
+
                         <Route path="/*" element={
                             <div className={`text-light`}>
                                 There's nothing here!

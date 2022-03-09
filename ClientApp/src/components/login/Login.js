@@ -129,7 +129,7 @@ class Login extends Component {
                             <h6><span>OR</span></h6>
                         </div>
                         <div className="innerContainerItem">
-                            <Button color="danger" className="signupButton" outline>
+                            <Button color="danger" className="signupButton" outline href={`/signup`}>
                                 Sign Up
                             </Button>
                         </div>
