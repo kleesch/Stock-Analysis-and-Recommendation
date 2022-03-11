@@ -16,6 +16,8 @@ export class Home extends Component {
                 //{ticker: "IBM", price: 0.00, high: 0.00},
                 {ticker:"None", price:0, high:0},
                 {ticker:"None", price:0, high:0},
+                {ticker:"None", price:0, high:0},
+                {ticker:"None", price:0, high:0},
                 {ticker:"None", price:0, high:0}
             ]
         };
@@ -66,7 +68,7 @@ export class Home extends Component {
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
                             <CardTitle>
-                                <b>Stock Market Management</b>
+                                <b><i>Stock Watchlist</i></b>
 
                                 {/* <div className="card-body d-flex flex-wrap">
                                     <h2 className="card-title p-2">Stock ticker: <p><b>{this.state.retrievedStock}</b></p>
@@ -86,12 +88,14 @@ export class Home extends Component {
                             </CardTitle>
                             
                             <Table className="text-light"
+                            hover
+                            
 >
   <thead>
     <tr>
-      <th>
+      {/* <th>
         #
-      </th>
+      </th> */}
       <th>
         Stock Ticker
       </th>
@@ -105,9 +109,9 @@ export class Home extends Component {
   </thead>
   <tbody>
     <tr>
-      <th scope="row">
+      {/* <th scope="row">
         1
-      </th>
+      </th> */}
       <td>
       {this.state.watchlistStocks[0].ticker}
       </td>
@@ -119,9 +123,9 @@ export class Home extends Component {
       </td>
     </tr>
     <tr>
-      <th scope="row">
+      {/* <th scope="row">
         2
-      </th>
+      </th> */}
       <td>
       {this.state.watchlistStocks[1].ticker}
       </td>
@@ -133,9 +137,9 @@ export class Home extends Component {
       </td>
     </tr>
     <tr>
-      <th scope="row">
+      {/* <th scope="row">
         3
-      </th>
+      </th> */}
       <td>
       {this.state.watchlistStocks[2].ticker}
       </td>
@@ -144,6 +148,34 @@ export class Home extends Component {
       </td>
       <td>
       {this.state.watchlistStocks[2].high}
+      </td>
+    </tr>
+    <tr>
+      {/* <th scope="row">
+        4
+      </th> */}
+      <td>
+      {this.state.watchlistStocks[3].ticker}
+      </td>
+      <td>
+      {this.state.watchlistStocks[3].price}
+      </td>
+      <td>
+      {this.state.watchlistStocks[3].high}
+      </td>
+    </tr>
+    <tr>
+      {/* <th scope="row">
+        4
+      </th> */}
+      <td>
+      {this.state.watchlistStocks[4].ticker}
+      </td>
+      <td>
+      {this.state.watchlistStocks[4].price}
+      </td>
+      <td>
+      {this.state.watchlistStocks[4].high}
       </td>
     </tr>
   </tbody>
