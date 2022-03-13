@@ -22,3 +22,10 @@ class DailyStockData(models.Model):
     
     def __str__(self):
         return self.ticker.__str__()+" "+self.date.__str__()
+
+class WatchedStock(models.Model):
+    ticker = models.CharField(max_length=5)
+    username = models.CharField(max_length=100) #<--foreign key?
+
+    def __str__(self):
+        self.ticker.str()+" "+self.username.str()
