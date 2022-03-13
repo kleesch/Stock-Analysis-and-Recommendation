@@ -22,3 +22,16 @@ class DailyStockData(models.Model):
     
     def __str__(self):
         return self.ticker.__str__()+" "+self.date.__str__()
+
+class WatchedStock(models.Model):
+    ticker = models.CharField(max_length=5)
+    date = models.DateField()
+    open = models.DecimalField(max_digits=10, decimal_places=4)
+    high = models.DecimalField(max_digits=10, decimal_places=4)
+    low = models.DecimalField(max_digits=10, decimal_places=4)
+    close = models.DecimalField(max_digits=10, decimal_places=4)
+    volume = models.IntegerField()
+    username = models.CharField(max_length=100) #<--foreign key?
+
+    def __str__(self):
+        self.ticker.str()+" "+self.username.str()
