@@ -1,6 +1,6 @@
 ﻿from rest_framework import serializers
 
-from .models import Stock, DailyStockData, WatchedStock, WatchedStockList
+from .models import Stock, DailyStockData, WatchedStock
 
 
 class StockSerializer(serializers.HyperlinkedModelSerializer):
@@ -17,4 +17,4 @@ class DailyStockDataSerializer(serializers.HyperlinkedModelSerializer):
 class WatchedStockSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = WatchedStock
-        fields = ("ticker", "date", "open", "high", "low", "close", "volume", "username")
+        fields = ("ticker", "username")
