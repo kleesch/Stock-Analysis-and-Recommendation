@@ -61,30 +61,12 @@ export class Home extends Component {
                                 <b>Enter stock ticker</b>
                                 <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
                                        value={this.state.tickerInput}> </Input>
-                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>
-                                
-                               
+                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>                             
                             </CardTitle>
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
                             <CardTitle>
                                 <b><i>Stock Watchlist</i></b>
-
-                                {/* <div className="card-body d-flex flex-wrap">
-                                    <h2 className="card-title p-2">Stock ticker: <p><b>{this.state.retrievedStock}</b></p>
-                                    </h2>
-                                </div>
-   
-                                <ul className="lists">
-                                    <li className="listitems"><strong>Current share price: </strong> <span
-                                        className="text-black">{this.state.price}</span></li>
-                                    <li className="listitems"><strong>52 week high: </strong> <span
-                                        className="text-black">{this.state.high}</span></li>
-                                    <li className="listitems"><strong>52 week low: </strong> <span
-                                        className="text-black">{this.state.low}</span></li>
-                                </ul> */}
-
-
                             </CardTitle>
                             
                             <Table className="text-light"
@@ -93,9 +75,6 @@ export class Home extends Component {
 >
   <thead>
     <tr>
-      {/* <th>
-        #
-      </th> */}
       <th>
         Stock Ticker
       </th>
@@ -109,9 +88,6 @@ export class Home extends Component {
   </thead>
   <tbody>
     <tr>
-      {/* <th scope="row">
-        1
-      </th> */}
       <td>
       {this.state.watchlistStocks[0].ticker}
       </td>
@@ -123,9 +99,6 @@ export class Home extends Component {
       </td>
     </tr>
     <tr>
-      {/* <th scope="row">
-        2
-      </th> */}
       <td>
       {this.state.watchlistStocks[1].ticker}
       </td>
@@ -137,9 +110,6 @@ export class Home extends Component {
       </td>
     </tr>
     <tr>
-      {/* <th scope="row">
-        3
-      </th> */}
       <td>
       {this.state.watchlistStocks[2].ticker}
       </td>
@@ -151,9 +121,6 @@ export class Home extends Component {
       </td>
     </tr>
     <tr>
-      {/* <th scope="row">
-        4
-      </th> */}
       <td>
       {this.state.watchlistStocks[3].ticker}
       </td>
@@ -165,9 +132,6 @@ export class Home extends Component {
       </td>
     </tr>
     <tr>
-      {/* <th scope="row">
-        4
-      </th> */}
       <td>
       {this.state.watchlistStocks[4].ticker}
       </td>

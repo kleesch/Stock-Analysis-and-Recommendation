@@ -95,21 +95,6 @@ export class Signup extends Component {
                             <CardTitle>
                                 <b>Enter account information</b>
                             </CardTitle>
-                            {/* <div className="loginField3">
-                                First Name:
-                                <Input placeholder={`Enter first name`} onChange={this.firstnameInput.bind(this)}
-                                        value={this.state.firstnameInput}/>
-                            </div>
-                            <div className="loginField3">
-                                Last Name:
-                                <Input placeholder={`Enter last name`} onChange={this.lastnameInput.bind(this)}
-                                        value={this.state.lastnameInput}/>
-                            </div>
-                            <div className="loginField3">
-                                Email address:
-                                <Input placeholder={`Enter email address`} onChange={this.emailInput.bind(this)}
-                                        value={this.state.emailInput}/>
-                            </div> */}
                             <div className="loginField3">
                                 Username:
                                 <Input placeholder={`Create a username`} onChange={this.usernameInput.bind(this)}
@@ -121,12 +106,6 @@ export class Signup extends Component {
                                 <Input type="password" placeholder={`Create a password`} onChange={this.passwordInput.bind(this)}
                                        value={this.state.passwordInput}/>
                             </div>
-                            {/* <div className="loginField3">
-                                Confirm Password:
-                                <Input type="password" placeholder={`Re-type password`} onChange={this.passwordInput.bind(this)}
-                                       value={this.state.passwordInput}/>
-                            </div> */}
-                        
                         </Card>
                         
                         <div className="innerContainerItem3">
