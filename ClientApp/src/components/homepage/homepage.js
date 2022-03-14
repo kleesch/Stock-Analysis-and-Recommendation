@@ -1,5 +1,7 @@
 ﻿import React, {Component} from "react";
 import {Button, Card, CardTitle, Input, Alert, Table} from "reactstrap";
+import { useState, useEffect } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import "./homepage.css";
 
 
@@ -151,9 +153,39 @@ export class Home extends Component {
                         </Card>
                         
                     </div>
-                    <Card color={`secondary`} inverse className="newcard">Insert chart here
-                    <img className="img1" src="https://media.ycharts.com/charts/c511f80ec356858029d034295d969d3d.png" title="Title of image" alt="alt text here"/>
+                    <Card color={`secondary`} inverse className="newcard">
+                    const [error, setError] = useState(null);
+                    const [isLoaded, setIsLoaded] = useState(false);
+                    const [items, setItems] = useState([]);
+                    const data = [];
 
+                    useEffect(() = {
+                    fetch("https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=AAPL&apikey=" + process.env.REACT_API)
+                    .then(res => res.json())
+                  .then(
+                  (result) => {
+                    for (var instance in result["Weekly Time Series"] ) {
+                    var mydata = (result["Weekly Time Series"][instance])
+                    mydata.date= instance
+                    data.push(mydata)
+                    }
+                    setItems(data.reverse())
+                    },
+
+                  (error) => {
+                  setIsLoaded(true);
+                    setError(error);
+                    }
+                    )
+                    }, [])
+                    return (
+                    <div>
+                    <LineChart width={500} height={250} margin={{ top: 150, right: 30, left: 20, bottom: 5 }} data={items}>
+                    <Line dot={false}  type="monotone" dataKey="1. open" stroke="rgb(0,200,5)" yAxisId="100" />
+                    </LineChart>
+                    </div>
+                    )
+  
                     </Card>
                 </div>
             </div>
