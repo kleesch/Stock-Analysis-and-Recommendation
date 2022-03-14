@@ -1,0 +1,42 @@
+
+.outerContainer3 {
+    height: 100vh;
+    margin: 0;
+    display: flex; 
+    align-items: center;
+}
+
+.innerContainer3 {
+    width: 100%;
+    text-align: center; 
+    display: flex;
+    justify-content: center;
+}
+
+.innerContainerItem3 {
+    margin-bottom: 30px;
+}
+
+.loginContainer3 {
+    width: 40%;
+    align-items: center;
+}
+
+.loginCard3 {
+    align-items: center;
+    padding: 10px;
+}
+
+.loginField3 {
+    width: 90%;
+    text-align: left;
+    padding-bottom: 15px;
+}
+
+.buttonField3 {
+    display: flex;
+    justify-content: end;
+}
+
+
+
