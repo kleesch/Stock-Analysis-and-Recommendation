@@ -69,83 +69,37 @@ export class Home extends Component {
                                 <b><i>Stock Watchlist</i></b>
                             </CardTitle>
                             
-                            <Table className="text-light"
-                            hover
-                            
->
-  <thead>
-    <tr>
-      <th>
-        Stock Ticker
-      </th>
-      <th>
-        Price
-      </th>
-      <th>
-        Weekly High
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-      {this.state.watchlistStocks[0].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[0].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[0].high}
-      </td>
-    </tr>
-    <tr>
-      <td>
-      {this.state.watchlistStocks[1].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[1].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[1].high}
-      </td>
-    </tr>
-    <tr>
-      <td>
-      {this.state.watchlistStocks[2].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[2].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[2].high}
-      </td>
-    </tr>
-    <tr>
-      <td>
-      {this.state.watchlistStocks[3].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[3].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[3].high}
-      </td>
-    </tr>
-    <tr>
-      <td>
-      {this.state.watchlistStocks[4].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[4].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[4].high}
-      </td>
-    </tr>
-  </tbody>
-</Table>
-                        </Card>
-                        
+                            <Table className="text-light" hover >
+                                <thead>
+                                    <tr> <th>  Stock Ticker </th>   
+                                         <th>  Price </th>
+                                         <th>  Weekly High </th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                    <tr> <td>  {this.state.watchlistStocks[0].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[0].price} </td>
+                                         <td>  {this.state.watchlistStocks[0].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[1].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[1].price} </td>
+                                         <td>  {this.state.watchlistStocks[1].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[2].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[2].price} </td>
+                                         <td>  {this.state.watchlistStocks[2].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[3].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[3].price} </td>
+                                         <td>  {this.state.watchlistStocks[3].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[4].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[4].price} </td>
+                                         <td>  {this.state.watchlistStocks[4].high} </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Card>                      
                     </div>
                     <Card color={`secondary`} inverse className="newcard">Insert chart here
                     <img className="img1" src="https://media.ycharts.com/charts/c511f80ec356858029d034295d969d3d.png" title="Title of image" alt="alt text here"/>
