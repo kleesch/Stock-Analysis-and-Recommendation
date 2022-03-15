@@ -9,6 +9,7 @@ export class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            stocks: [],
             tickerInput: "",
             retrievedStock: "None",
             price: 0,
@@ -43,6 +44,15 @@ export class Home extends Component {
             let oldWatchlist=this.state.watchlistStocks;
             oldWatchlist.splice(0,0,oldSearch);
             oldWatchlist.splice(3,1);
+            let mapped_stocks = response.map((elem)=>{
+            return {"date": elem.fields.date, "close": parseFloat(elem.fields.close)}
+            mapped_stocks.reverse()           
+            });
+            
+            console.log(mapped_stocks);
+            this.setState({
+              stocks: mapped_stocks              
+            })
             console.log(response[response.length-1]);
             this.setState({
                 retrievedStock: input,
@@ -154,37 +164,25 @@ export class Home extends Component {
                         
                     </div>
                     <Card color={`secondary`} inverse className="newcard">
-                    const [error, setError] = useState(null);
-                    const [isLoaded, setIsLoaded] = useState(false);
-                    const [items, setItems] = useState([]);
-                    const data = [];
-
-                    useEffect(() = {
-                    fetch("https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=AAPL&apikey=" + process.env.REACT_API)
-                    .then(res => res.json())
-                  .then(
-                  (result) => {
-                    for (var instance in result["Weekly Time Series"] ) {
-                    var mydata = (result["Weekly Time Series"][instance])
-                    mydata.date= instance
-                    data.push(mydata)
-                    }
-                    setItems(data.reverse())
-                    },
-
-                  (error) => {
-                  setIsLoaded(true);
-                    setError(error);
-                    }
-                    )
-                    }, [])
-                    return (
-                    <div>
-                    <LineChart width={500} height={250} margin={{ top: 150, right: 30, left: 20, bottom: 5 }} data={items}>
-                    <Line dot={false}  type="monotone" dataKey="1. open" stroke="rgb(0,200,5)" yAxisId="100" />
+                    
+                    <div>                    
+                    <LineChart
+                     width={800}
+                     height={400}
+                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    data={this.state.stocks}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" stroke="white" />
+                    <YAxis dataKey="close" stroke="white" />
+                    <Line dot={false}  type="monotone" dataKey="close" stroke="rgb(0,200,5)"/>
+                    <Tooltip />
+         
+                    <Line type="monotone" dataKey="date" stroke="#8884d8" activeDot={{ r: 8 }} />
+                   
+                    
                     </LineChart>
                     </div>
-                    )
+                    
   
                     </Card>
                 </div>
