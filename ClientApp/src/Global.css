@@ -10,3 +10,8 @@ body {
 h1 {
     color: var(--default-text-color);
 }
+
+.small_image{
+    height:100px;
+    width:100px;
+   }
