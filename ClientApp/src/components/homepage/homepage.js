@@ -45,10 +45,9 @@ export class Home extends Component {
             oldWatchlist.splice(0,0,oldSearch);
             oldWatchlist.splice(3,1);
             let mapped_stocks = response.map((elem)=>{
-            return {"date": elem.fields.date, "close": parseFloat(elem.fields.close)}
-            mapped_stocks.reverse()           
+            return {"date": elem.fields.date, "close": parseFloat(elem.fields.close)}                     
             });
-            
+            mapped_stocks.reverse()  
             console.log(mapped_stocks);
             this.setState({
               stocks: mapped_stocks              
@@ -80,27 +79,13 @@ export class Home extends Component {
                             <CardTitle>
                                 <b>Stock Market Management</b>
 
-                                {/* <div className="card-body d-flex flex-wrap">
-                                    <h2 className="card-title p-2">Stock ticker: <p><b>{this.state.retrievedStock}</b></p>
-                                    </h2>
-                                </div>
-   
-                                <ul className="lists">
-                                    <li className="listitems"><strong>Current share price: </strong> <span
-                                        className="text-black">{this.state.price}</span></li>
-                                    <li className="listitems"><strong>52 week high: </strong> <span
-                                        className="text-black">{this.state.high}</span></li>
-                                    <li className="listitems"><strong>52 week low: </strong> <span
-                                        className="text-black">{this.state.low}</span></li>
-                                </ul> */}
-
-
+                                
                             </CardTitle>
                             
                             <Table className="text-light"
 >
   <thead>
-    <tr>
+      <tr>
       <th>
         #
       </th>
@@ -160,24 +145,31 @@ export class Home extends Component {
     </tr>
   </tbody>
 </Table>
+
                         </Card>
                         
                     </div>
                     <Card color={`secondary`} inverse className="newcard">
                     
-                    <div>                    
+                    <div> 
+                    
+                    <h4>Stock Market Chart</h4>     
+
                     <LineChart
-                     width={800}
-                     height={400}
-                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    data={this.state.stocks}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" stroke="white" />
-                    <YAxis dataKey="close" stroke="white" />
+                     
+                     width={820}
+                     height={360}
+                     margin={{ top: 35, right: 30, left: 20, bottom: 5 }}
+                    data={this.state.stocks}
+                    >
+                    
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey="date" stroke="white" label={{ value: "Date", position: "insideBottomRight", dy: 10}}  />
+                    <YAxis  dataKey="close" stroke="white" label= {{ value: "Close", position: "insideleft", angle: -90, dy: -30}}/>                    
                     <Line dot={false}  type="monotone" dataKey="close" stroke="rgb(0,200,5)"/>
-                    <Tooltip />
-         
+                    <Tooltip />         
                     <Line type="monotone" dataKey="date" stroke="#8884d8" activeDot={{ r: 8 }} />
+                   
                    
                     
                     </LineChart>
