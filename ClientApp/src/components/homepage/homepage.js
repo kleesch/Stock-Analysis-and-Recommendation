@@ -89,6 +89,13 @@ class Home extends Component {
             <div className="outerContainer4">
                 <div className="innerContainer4">
                     <div className="loginContainer4">
+                    <Card className="cardRec text-light"color={`secondary`}>
+                            <CardTitle><br></br>Stock recommendation for:</CardTitle>
+                            <p> <b>Ticker</b></p> 
+
+                            <p class="text-warning"><b>BUY</b></p>
+                           
+                        </Card>
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
                             <CardTitle>
                                 <b>Enter stock ticker</b>
@@ -141,15 +148,15 @@ class Home extends Component {
                         </Card>
 
                     </div>
-                    <Card color={`secondary`} inverse className="newcard">
+                    <Card color={`secondary`} inverse className="newcard text-light">
 
                         <div>
-
-                            <h4>Stock Market Chart</h4>
+<p></p>
+                            <h4 className="text-light">Stock Market Chart</h4>
 
                             <LineChart
 
-                                width={820}
+                                width={850}
                                 height={360}
                                 margin={{top: 35, right: 30, left: 20, bottom: 5}}
                                 data={this.state.stocks}
