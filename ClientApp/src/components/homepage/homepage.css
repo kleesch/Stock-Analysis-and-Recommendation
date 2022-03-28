@@ -3,7 +3,6 @@
     margin: 0;
     display: flex;
     align-items: center;
-    
 }
 
 .innerContainer4 {
@@ -11,7 +10,10 @@
     text-align: center;
     display: flex;
     justify-content: left;
-    
+}
+
+.innerContainerItem2 {
+    margin-bottom: 20px;
 }
 
 .innerContainerItem4 {
@@ -23,44 +25,47 @@
     align-items: center;
 }
 
-.loginCard4 {
+.loginCard2 {
     align-items: center;
     padding: 15px;
 }
 
-.loginField4 {
+.loginField2 {
     width: 90%;
     text-align: left;
     padding-bottom: 15px;
 }
 
 .ticker {
-    width:90%;
+    width: 90%;
     display: top;
     justify-content: center;
     border-style: solid;
     margin: 10px;
 }
-.tickerbutton{
+
+.tickerbutton {
     width: 90%;
     margin: 5px;
     border-radius: 10px;
 }
+
 .firstone {
     width: 100%;
     height: 30px;
-
 }
-.newcard{
+
+.newcard {
     justify-content: right;
     width: 100%;
     margin: 20px;
     margin-top: 0px;
-
-    
-
-
 }
-.img1{
-    margin:5px;
+
+.img1 {
+    margin: 5px;
+}
+
+h4 {
+    color: black;
 }
