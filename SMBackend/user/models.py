@@ -15,6 +15,8 @@ class UserManager(BaseUserManager):
 
         user = self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
+        user.is_staff=False
+        user.is_superuser=False
         user.save(using=self._db)
 
         return user
@@ -42,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, unique=True,  null=True, blank=True)
     is_active = models.BooleanField(default=True)
+    #TODO: Stop this from being custom signable from signup page via API (Ask Kyle)
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'

@@ -4,6 +4,7 @@
   "proxy": "http://localhost:8080/",
   "description": "",
   "main": "index.js",
+  "proxy": "http://localhost:8080/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "webpack serve --config webpack.config.js --history-api-fallback"
@@ -16,6 +17,7 @@
     "babel-preset-react-app": "3.1.2",
     "bootstrap": "^5.1.3",
     "react": "^17.0.2",
+    "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "reactstrap": "^9.0.1",

@@ -4,3 +4,4 @@
 /SMBackend/db.sqlite3
 *.sqlite3
 SMBackend/SMBackend/__pycache__/
+/SMBackend/venv/

@@ -6,20 +6,27 @@ export class TopBar extends Component {
 
     render() {
         return (
-            <Navbar color={`dark`} dark light>
+            <Navbar color={`dark`} dark light expand="md">
                 <NavbarBrand>
                     SM Management
                 </NavbarBrand>
                 <Nav className={`me-auto`} navbar>
+                  <NavItem>
+                      <NavLink href={`/login`}>
+                            Login
+                      </NavLink>
+                    </NavItem> 
                     <NavItem>
-                        <NavLink href={`/`}>
+                        <NavLink href={`/homepage`}>
                             Home
                         </NavLink>
                     </NavItem>
-                </Nav>
-                <NavLink href={`/login`} className={`text-light`}>
-                    Login
-                </NavLink>
+                    <NavItem>
+                        <NavLink href={`/Marketing`}>
+                            About
+                        </NavLink>
+                    </NavItem>
+                </Nav> 
             </Navbar>
         )
     }

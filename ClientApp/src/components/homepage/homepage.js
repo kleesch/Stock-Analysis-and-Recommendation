@@ -19,6 +19,8 @@ export class Home extends Component {
                 //{ticker: "IBM", price: 0.00, high: 0.00},
                 {ticker:"None", price:0, high:0},
                 {ticker:"None", price:0, high:0},
+                {ticker:"None", price:0, high:0},
+                {ticker:"None", price:0, high:0},
                 {ticker:"None", price:0, high:0}
             ]
         };
@@ -70,112 +72,72 @@ export class Home extends Component {
                                 <b>Enter stock ticker</b>
                                 <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
                                        value={this.state.tickerInput}> </Input>
-                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>
-                                
-                               
+                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>                             
                             </CardTitle>
                         </Card>
-                        <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
+                        <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
                             <CardTitle>
-                                <b>Stock Market Management</b>
-
-                                
+                                <b><i>Stock Watchlist</i></b>
                             </CardTitle>
                             
-                            <Table className="text-light"
->
-  <thead>
-      <tr>
-      <th>
-        #
-      </th>
-      <th>
-        Stock Ticker
-      </th>
-      <th>
-        Price
-      </th>
-      <th>
-        Weekly High
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">
-        1
-      </th>
-      <td>
-      {this.state.watchlistStocks[0].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[0].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[0].high}
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">
-        2
-      </th>
-      <td>
-      {this.state.watchlistStocks[1].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[1].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[1].high}
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">
-        3
-      </th>
-      <td>
-      {this.state.watchlistStocks[2].ticker}
-      </td>
-      <td>
-      {this.state.watchlistStocks[2].price}
-      </td>
-      <td>
-      {this.state.watchlistStocks[2].high}
-      </td>
-    </tr>
-  </tbody>
-</Table>
-
-                        </Card>
+                            <Table className="text-light" hover >
+                                <thead>
+                                    <tr> <th>  Stock Ticker </th>   
+                                         <th>  Price </th>
+                                         <th>  Weekly High </th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                    <tr> <td>  {this.state.watchlistStocks[0].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[0].price} </td>
+                                         <td>  {this.state.watchlistStocks[0].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[1].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[1].price} </td>
+                                         <td>  {this.state.watchlistStocks[1].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[2].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[2].price} </td>
+                                         <td>  {this.state.watchlistStocks[2].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[3].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[3].price} </td>
+                                         <td>  {this.state.watchlistStocks[3].high} </td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[4].ticker} </td>
+                                         <td>  {this.state.watchlistStocks[4].price} </td>
+                                         <td>  {this.state.watchlistStocks[4].high} </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            </Card>
                         
-                    </div>
-                    <Card color={`secondary`} inverse className="newcard">
-                    
-                    <div> 
-                    
-                    <h4>Stock Market Chart</h4>     
-
-                    <LineChart
-                     
-                     width={820}
-                     height={360}
-                     margin={{ top: 35, right: 30, left: 20, bottom: 5 }}
-                    data={this.state.stocks}
-                    >
-                    
-                    <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey="date" stroke="white" label={{ value: "Date", position: "insideBottomRight", dy: 10}}  />
-                    <YAxis  dataKey="close" stroke="white" label= {{ value: "Close", position: "insideleft", angle: -90, dy: -30}}/>                    
-                    <Line dot={false}  type="monotone" dataKey="close" stroke="rgb(0,200,5)"/>
-                    <Tooltip />         
-                    <Line type="monotone" dataKey="date" stroke="#8884d8" activeDot={{ r: 8 }} />
-                   
-                   
-                    
-                    </LineChart>
-                    </div>
-                    
-  
+                        </div>
+                        <Card color={`secondary`} inverse className="newcard">
+                        
+                        <div> 
+                        
+                        <h4>Stock Market Chart</h4>     
+    
+                        <LineChart
+                         
+                         width={820}
+                         height={360}
+                         margin={{ top: 35, right: 30, left: 20, bottom: 5 }}
+                        data={this.state.stocks}
+                        >
+                        
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <XAxis dataKey="date" stroke="white" label={{ value: "Date", position: "insideBottomRight", dy: 10}}  />
+                        <YAxis  dataKey="close" stroke="white" label= {{ value: "Close", position: "insideleft", angle: -90, dy: -30}}/>                    
+                        <Line dot={false}  type="monotone" dataKey="close" stroke="rgb(0,200,5)"/>
+                        <Tooltip />         
+                        <Line type="monotone" dataKey="date" stroke="#8884d8" activeDot={{ r: 8 }} />
+                       
+                       
+                        
+                        </LineChart>
+                        </div>
                     </Card>
                 </div>
             </div>

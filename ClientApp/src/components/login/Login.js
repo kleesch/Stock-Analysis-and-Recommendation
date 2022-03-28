@@ -1,34 +1,70 @@
 ﻿import React, {Component} from "react";
 import {Button, Card, CardTitle, Input, Alert} from "reactstrap";
 import "./Login.css";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
 
 
-export class Login extends Component {
+class Login extends Component {
     static displayName = Login.name;
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired  
+    };
 
     constructor(props) {
         super(props);
         this.state = {
-            loggedin: false,
+            token: this.props.cookies.get("token") ?? false,
+            username: this.props.cookies.get("username") ?? null,
             usernameInput: "",
-            loginAttemptResponses: [{
+            loginAttemptResponses: [/*{
                 title: "Invalid Login Attempt",
                 description: "the username or password you entered is incorrect",
                 success: false
-            }],
+            }*/],
             passwordInput: ""
         };
     }
-    
+
     async loginButtonPress(){
+        if(this.state.token && this.state.username){
+            let alerts=this.state.loginAttemptResponses;
+            alerts.push({
+                title: "Already Logged In",
+                description: `You are already logged in as ${this.state.username}!`,
+                success: false
+            })
+            this.setState({loginAttemptResponses: alerts});
+            return;
+        }
+        const username = this.state.usernameInput; //Save by value so that we can save the username as successful later
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name: this.state.usernameInput})
+            body: JSON.stringify({username: username, password: this.state.passwordInput})
         }
-        let response = await fetch('http://127.0.0.1:8000/persons/getByName/',requestOptions)
-        console.log(response);
+        let response = await fetch('/api/persons/login/',requestOptions)
+        if (response.status===200){
+            const token=await response.text();
+            this.props.cookies.set("token",token);
+            this.props.cookies.set("username",username);
+            let alerts = this.state.loginAttemptResponses
+            alerts.push({
+                title: "Login Successful",
+                description: "You have been logged in. In the future, you will be redirected home.",
+                success: true
+            })
+            this.setState({loginAttemptResponses: alerts, token: token, username: username});
+        } else {
+            let alerts = this.state.loginAttemptResponses
+            alerts.push({
+                title: "Invalid Login Attempt",
+                description: "The credentials you used to login are incorrect.",
+                success: false
+            })
+            this.setState({loginAttemptResponses: alerts});
+        }
     }
 
     removeAlert(index) {
@@ -45,9 +81,8 @@ export class Login extends Component {
 
     passwordInput(e) {
         this.setState({
-                passwordInput: e.target.value,
-            }
-        )
+            passwordInput: e.target.value,
+        })
     }
 
     generateAlerts(alerts) {
@@ -94,7 +129,7 @@ export class Login extends Component {
                             <h6><span>OR</span></h6>
                         </div>
                         <div className="innerContainerItem">
-                            <Button color="danger" className="signupButton" outline>
+                            <Button color="danger" className="signupButton" outline href={`/signup`}>
                                 Sign Up
                             </Button>
                         </div>
@@ -104,3 +139,6 @@ export class Login extends Component {
         );
     }
 }
+
+let cookiedLogin = withCookies(Login);
+export {cookiedLogin as Login};
