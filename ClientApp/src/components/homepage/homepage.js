@@ -91,7 +91,7 @@ class Home extends Component {
                     <div className="loginContainer4">
                     <Card className="cardRec text-light"color={`secondary`}>
                             <CardTitle><br></br>Stock recommendation for:</CardTitle>
-                            <p> <b>Ticker</b></p> 
+                            <p> <b>AMZN</b></p> 
 
                             <p class="text-warning"><b>BUY</b></p>
                            
@@ -118,31 +118,34 @@ class Home extends Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>  {this.state.watchlistStocks[0].ticker} </td>
-                                    <td>  {this.state.watchlistStocks[0].price} </td>
-                                    <td>  {this.state.watchlistStocks[0].high} </td>
-                                </tr>
-                                <tr>
-                                    <td>  {this.state.watchlistStocks[1].ticker} </td>
-                                    <td>  {this.state.watchlistStocks[1].price} </td>
-                                    <td>  {this.state.watchlistStocks[1].high} </td>
-                                </tr>
-                                <tr>
-                                    <td>  {this.state.watchlistStocks[2].ticker} </td>
-                                    <td>  {this.state.watchlistStocks[2].price} </td>
-                                    <td>  {this.state.watchlistStocks[2].high} </td>
-                                </tr>
-                                <tr>
-                                    <td>  {this.state.watchlistStocks[3].ticker} </td>
-                                    <td>  {this.state.watchlistStocks[3].price} </td>
-                                    <td>  {this.state.watchlistStocks[3].high} </td>
-                                </tr>
-                                <tr>
-                                    <td>  {this.state.watchlistStocks[4].ticker} </td>
-                                    <td>  {this.state.watchlistStocks[4].price} </td>
-                                    <td>  {this.state.watchlistStocks[4].high} </td>
-                                </tr>
+                                <tr> <td>  {this.state.watchlistStocks[0].ticker} </td>
+                                        <td>  {this.state.watchlistStocks[0].price} </td>
+                                        <td>  {this.state.watchlistStocks[0].high} </td>
+                                        <td><Button>Remove</Button></td>
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[1].ticker} </td>
+                                        <td>  {this.state.watchlistStocks[1].price} </td>
+                                        <td>  {this.state.watchlistStocks[1].high} </td>
+                                        <td><Button>Remove</Button></td>
+
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[2].ticker} </td>
+                                        <td>  {this.state.watchlistStocks[2].price} </td>
+                                        <td>  {this.state.watchlistStocks[2].high} </td>
+                                        <td><Button>Remove</Button></td>
+
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[3].ticker} </td>
+                                        <td>  {this.state.watchlistStocks[3].price} </td>
+                                        <td>  {this.state.watchlistStocks[3].high} </td>
+                                        <td><Button>Remove</Button></td>
+
+                                    </tr>
+                                    <tr> <td>  {this.state.watchlistStocks[4].ticker} </td>
+                                        <td>  {this.state.watchlistStocks[4].price} </td>
+                                        <td>  {this.state.watchlistStocks[4].high} </td>
+                                        <td><Button>Remove</Button></td>
+                                        </tr>
                                 </tbody>
                             </Table>
                         </Card>
