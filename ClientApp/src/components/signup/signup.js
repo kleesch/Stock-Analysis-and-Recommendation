@@ -56,8 +56,8 @@ export class Signup extends Component {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                name: this.state.usernameInput,
-                alias: this.state.passwordInput,
+                username: this.state.usernameInput,
+                password: this.state.passwordInput,
             })
         }
         let response = await fetch('api/persons/',requestOptions)
