@@ -10,6 +10,12 @@ class Stock(models.Model):
     def __str__(self):
         return self.ticker
 
+class StockRecommendation(models.Model):
+    ticker = models.CharField(max_length=5)
+    recommendation = models.CharField(max_length=5)
+
+    def __str__(self):
+        self.ticker.str()+" "+self.recommendation.str()
 
 class DailyStockData(models.Model):
     ticker = models.CharField(max_length=5)

@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.core import serializers
 
-from .models import Stock, DailyStockData, WatchedStock
-from .serializers import StockSerializer, DailyStockDataSerializer, WatchedStockSerializer
+from .models import Stock, DailyStockData, WatchedStock, StockRecommendation
+from .serializers import StockSerializer, DailyStockDataSerializer, WatchedStockSerializer, StockRecommendationSerializer
 
 
 class StockViewSet(viewsets.ModelViewSet):
@@ -55,6 +55,29 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
             # Requested username does not exist in our records
             return Response(status=400, data="Invalid Username")
         info = WatchedStock.objects.all().filter(username=requested_username)
+        if info.exists():
+            # Return found info
+            return Response(status=200, data=serializers.serialize('json', info), content_type="application/json")
+        # No content found; default condition
+        return Response(status=204)
+
+class StockRecommendationkViewSet(viewsets.ModelViewSet):
+    queryset = StockRecommendation.objects.all().order_by('ticker')
+    serializer_class = StockRecommendationSerializer
+    
+    # GET api/dailystocks/getByTicker?ticker=<string>
+    # Gets recommendation by ticker
+    # Possible Reponses: 400 Bad Request, 200 OK, 204 No Content
+    @action(methods=['get'], detail=False)
+    def getByTicker(self, request):
+        requested_ticker = request.query_params.get('ticker')
+        if not requested_ticker:
+            # Ticker field empty
+            return Response(status=400, data="Unspecified Ticker")
+        if not StockRecommendation.objects.filter(ticker=requested_ticker.exists()):
+            # Requested ticker does not exist in our records
+            return Response(status=400, data="Invalid Ticker")
+        info = StockRecommendation.objects.all().filter(ticker=requested_ticker)
         if info.exists():
             # Return found info
             return Response(status=200, data=serializers.serialize('json', info), content_type="application/json")
