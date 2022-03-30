@@ -13,7 +13,7 @@ export class TopBar extends Component {
                 <Nav className={`me-auto`} navbar>
                   <NavItem>
                       <NavLink href={`/login`}>
-                            Login
+                            Login 
                       </NavLink>
                     </NavItem> 
                     <NavItem>

@@ -91,7 +91,7 @@ class Home extends Component {
                     <div className="loginContainer4">
                     <Card className="cardRec text-light"color={`secondary`}>
                             <CardTitle><br></br>Stock recommendation for:</CardTitle>
-                            <p> <b>AMZN</b></p> 
+                            <p> <b>None</b></p> 
 
                             <p class="text-warning"><b>BUY</b></p>
                            
