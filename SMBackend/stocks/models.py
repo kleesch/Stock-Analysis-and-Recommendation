@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime as date
+import datetime
 
 
 # Create your models here.
@@ -42,7 +42,7 @@ class StockRecommendation(models.Model):
                     self.sell_correct_counter += 1
 
         self.recommendation = new_recommendation  # Update to new recommendation
-        self.recommendationDate = date.today()  # Update to new date TODO: Double check that this saves correctly
+        self.recommendation_date = datetime.date.today()  # Update to new date TODO: Double check that this saves correctly
 
         self.save()  # Save changes
 
