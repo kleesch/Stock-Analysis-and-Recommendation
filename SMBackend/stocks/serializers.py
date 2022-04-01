@@ -8,15 +8,21 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
         model = Stock
         fields = ('ticker', 'company_info')
 
+
 class StockRecommendationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = StockRecommendation
-        fields = ('ticker', 'recommendation')
+        fields = (
+            'ticker', 'recommendation', 'recommendation_date', 'buy_counter', 'buy_correct_counter', 'hold_counter',
+            'hold_correct_counter', 'sell_counter', 'sell_correct_counter'
+        )
+
 
 class DailyStockDataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DailyStockData
         fields = ("ticker", "date", "open", "high", "low", "close", "volume")
+
 
 class WatchedStockSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

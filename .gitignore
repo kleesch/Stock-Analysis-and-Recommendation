@@ -1,7 +1,12 @@
 ﻿/ClientApp/node_modules/
-/SMBackend/backend/__pycache__/
-/SMBackend/backend/migrations/__pycache__/
 /SMBackend/db.sqlite3
 *.sqlite3
 SMBackend/SMBackend/__pycache__/
 /SMBackend/venv/
+/SMBackend/backend/__pycache__/
+/SMBackend/backend/migrations/__pycache__/
+/SMBackend/stocks/__pycache__/
+/SMBackend/stocks/migrations/__pycache__/
+/SMBackend/user/__pycache__/
+/SMBackend/user/migrations/__pycache__/
+.idea
