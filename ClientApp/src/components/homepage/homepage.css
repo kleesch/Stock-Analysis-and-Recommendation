@@ -66,6 +66,6 @@
     margin: 5px;
 }
 
-h4 {
-    color: black;
+.graph-header {
+    margin-top: 10px
 }
