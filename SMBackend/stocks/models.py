@@ -37,5 +37,10 @@ class WatchedStock(models.Model):
     ticker = models.CharField(max_length=5)
     username = models.CharField(max_length=100) #<--foreign key?
 
+    def remove_watchlist(self):
+        self.delete()
+
     def __str__(self):
         self.ticker.str()+" "+self.username.str()
+
+

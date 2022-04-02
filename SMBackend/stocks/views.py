@@ -104,3 +104,24 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         # Modify data
         record.update_recommendation(new_recommendation)
         return Response(status=200, data=serializers.serialize('json',[record]))
+
+    @action(methods=['delete'], detail=False)
+    def deleteByUsername(self, request):
+        to_remove_username = request.query_params.get('username')
+        to_update_ticker = request.query_params.get('ticker')
+        if not to_update_ticker:
+            return Response(status=400, data="Invalid Ticker")
+        if not to_remove_username:
+            return Response(status=400, data="Invalid Username")
+        if not StockRecommendation.objects.all().filter(ticker=to_update_ticker,username=to_remove_username).exists():
+             return Response(status=204, data="Unspecified Response")
+        watchlist = StockRecommendation.objects.get(username=to_remove_username, ticker=to_update_ticker)
+        watchlist.remove_watchlist()
+        return Response(status=200, data="Deleted")
+              
+            
+
+
+
+
+
