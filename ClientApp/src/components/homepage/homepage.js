@@ -25,6 +25,7 @@ class Home extends Component {
             price: 0,
             high: 0,
             low: 0,
+            recommendation: "",
             watchlistStocks: [
                 //{ticker: "IBM", price: 0.00, high: 0.00},
                 {ticker: "None", price: 0, high: 0},
@@ -42,6 +43,32 @@ class Home extends Component {
             tickerInput: e.target.value,
         })
     }
+
+    async RecButton() {
+        const input = this.state.tickerInput
+        const requestOptions = {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': `Token ${this.state.token}`
+            })
+        }
+    let response = await fetch(`api/recommendedstocks/getByTicker?ticker=${input}`, requestOptions)
+    if (response.status === 200) {
+        response = await response.json();
+        response = await JSON.parse(response);
+        const recommendations= {
+            ticker: input,
+            recommendation: response.fields.recommendation
+    };
+    console.log(response[response.length - 1]);
+            this.setState({
+                ticker: input,
+                recommendation: response.fields.recommendation
+            })
+}
+
+    }
+
 
     async tickerButton() {
         const input = this.state.tickerInput
@@ -76,7 +103,7 @@ class Home extends Component {
                 retrievedStock: input,
                 watchlistStocks: oldWatchlist,
             })
-        }
+        }      
     }
 
     render() {
@@ -93,7 +120,7 @@ class Home extends Component {
                             <CardTitle><br></br>Stock recommendation for:</CardTitle>
                             <p> <b>None</b></p> 
 
-                            <p class="text-warning"><b>BUY</b></p>
+                            <p class="text-warning"><b>{this.state.recommendation}</b></p>
                            
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
@@ -101,7 +128,9 @@ class Home extends Component {
                                 <b>Enter stock ticker</b>
                                 <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
                                        value={this.state.tickerInput}> </Input>
-                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>
+                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Add to watchlist</button>
+                                <button className="RecButton" onClick={this.RecButton.bind(this)}>Get recommendation</button>
+
                             </CardTitle>
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
