@@ -4,16 +4,16 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, username, email, password=None, **kwargs):
+    def create_user(self, username, password, **kwargs):
         """
         Create and return a `User` with an email, phone number, username and password.
         """
         if username is None:
             raise TypeError('Users must have a username.')
-        if email is None:
-            raise TypeError('Users must have an email.')
+        if password is None:
+            raise TypeError('Users must have a password.')
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(username=username)
         user.set_password(password)
         user.is_staff=False
         user.is_superuser=False
@@ -44,7 +44,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, unique=True,  null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    #TODO: Stop this from being custom signable from signup page via API (Ask Kyle)
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'

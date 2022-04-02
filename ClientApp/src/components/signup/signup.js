@@ -1,21 +1,21 @@
 import React, {Component} from "react";
+import {Navigate} from "react-router-dom";
 import {Alert, Button, Card, CardTitle, Input} from "reactstrap";
 import "./signup.css";
 
 export class Signup extends Component {
     static displayName = Signup.name;
-    
+
     constructor(props) {
         super(props);
         this.state = {
-            loggedin: false,
+            alerts: [],
+            success: false,
             usernameInput: "",
             passwordInput: "",
-            firstnameInput: "",
-            lastnameInput: "",
-            emailInput: "",
+            passwordConfirmInput: "",
             signupResponse: [],
-            
+
         };
     }
 
@@ -31,18 +31,21 @@ export class Signup extends Component {
             }
         )
     }
+
+    passwordConfirmInput(e) {
+        this.setState({
+                passwordConfirmInput: e.target.value,
+            }
+        )
+    }
+
     firstnameInput(e) {
         this.setState({
                 firstnameInput: e.target.value,
             }
         )
     }
-    lastnameInput(e) {
-        this.setState({
-                lastnameInput: e.target.value,
-            }
-        )
-    }
+
     emailInput(e) {
         this.setState({
                 emailInput: e.target.value,
@@ -51,7 +54,17 @@ export class Signup extends Component {
     }
 
 
-    async signupButtonPress(){
+    async signupButtonPress() {
+        if (this.state.passwordInput !== this.state.passwordConfirmInput) {
+            let alerts=this.state.alerts
+            alerts.push({
+                title: "Passwords Don't Match",
+                description: "The passwords you entered don't match!",
+                success: false
+            })
+            this.setState({alerts: alerts});
+            return;
+        }
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -60,19 +73,35 @@ export class Signup extends Component {
                 password: this.state.passwordInput,
             })
         }
-        let response = await fetch('api/persons/',requestOptions)
-      {         
-             let alerts = this.state.signupResponse
+        let response = await fetch('api/persons/signup/', requestOptions)
+        if (response.status===201){
+            let alerts = this.state.alerts
             alerts.push({
                 title: "Account Created",
-            description: "Please login",
+                description: "You may now login with this account!",
                 success: true
             })
-            this.setState({signupResponse: alerts});
+            this.setState({alerts: alerts});
+        } else {
+            let alerts = this.state.alerts
+            alerts.push({
+                title: "Username Taken",
+                description: "The username you're using is already taken!",
+                success: false
+            })
+            this.setState({alerts: alerts});
         }
+
+        
     }
-    
-    
+
+    removeAlert(index) {
+        let alerts = this.state.alerts;
+        alerts.splice(index, 1);
+        this.setState({loginAttemptResponses: alerts});
+    }
+
+
     generateAlerts(alerts) {
         return (
             <div>
@@ -86,36 +115,52 @@ export class Signup extends Component {
         );
     }
 
-    render () {
+    render() {
+        let alerts = this.generateAlerts(this.state.alerts);
         return (
             <div className="outerContainer3">
                 <div className="innerContainer3">
                     <div className="loginContainer3">
                         <Card color={`secondary`} inverse className="loginCard3 innerContainerItem3">
                             <CardTitle>
-                                <b>Enter account information</b>
+                                <b>Enter Account Information</b>
                             </CardTitle>
                             <div className="loginField3">
                                 Username:
                                 <Input placeholder={`Create a username`} onChange={this.usernameInput.bind(this)}
                                        value={this.state.userNameInput}/>
                             </div>
-                            
+
                             <div className="loginField3">
                                 Password:
-                                <Input type="password" placeholder={`Create a password`} onChange={this.passwordInput.bind(this)}
+                                <Input type="password" placeholder={`Create a password`}
+                                       onChange={this.passwordInput.bind(this)}
                                        value={this.state.passwordInput}/>
                             </div>
+
+                            <div className="loginField3">
+                                Confirm Password:
+                                <Input type="password" placeholder={`Confirm password`}
+                                       onChange={this.passwordConfirmInput.bind(this)}
+                                       value={this.state.passwordConfirmInput}
+                                       invalid={this.state.passwordConfirmInput !== this.state.passwordInput && this.state.passwordConfirmInput !== ""}
+                                       valid={this.state.passwordInput === this.state.passwordConfirmInput && this.state.passwordConfirmInput !== ""}
+                                />
+                            </div>
+                            {
+                                alerts
+                            }
                         </Card>
-                        
+
                         <div className="innerContainerItem3">
-                            <Button color="light" className="signupButton" outline onClick={this.signupButtonPress.bind(this)} href={`/login`}>
+                            <Button color="light" className="signupButton" outline
+                                    onClick={this.signupButtonPress.bind(this)}>
                                 Create Account!
                             </Button>
                         </div>
                     </div>
-                </div> 
-            </div>      
+                </div>
+            </div>
         );
     }
 }
