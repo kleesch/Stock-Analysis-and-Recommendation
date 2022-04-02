@@ -1,5 +1,5 @@
 ﻿import React, {Component} from "react";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import {Layout} from "./components/Layout";
 import {Marketing} from "./components/marketing/Marketing";
 import {Login} from "./components/login/Login";
@@ -33,9 +33,7 @@ class App extends Component {
                         <Route path="/marketing" element={< Marketing/>}/>
                         <Route path="/watchlist_analytics" element={< WatchlistAnalytics/>}/>
                         <Route path="/*" element={
-                            <div className={`text-light`}>
-                                There's nothing here!
-                            </div>
+                            <Navigate to={`/homepage`} push/>
                         }/>
                     </Routes>
                 </BrowserRouter>
