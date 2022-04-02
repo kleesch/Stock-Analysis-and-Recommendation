@@ -7,6 +7,28 @@ import "./homepage.css";
 import {Cookies, withCookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+})
+
+const CustomTooltip = ({active, payload, label}) => {
+    if (active && payload && payload.length) {
+        return (
+            <Card style={{padding: "5px"}}>
+                <div style={{backgroundColor: "white"}}>
+                    <p style={{color: "black", marginBottom: "5px"}}>
+                        Date: {new Date(label).toLocaleDateString()}
+                    </p>
+                    <p style={{color: "limegreen", marginBottom: "0px"}}>
+                        Close Price: {currencyFormatter.format(payload[0]["value"])}
+                    </p>
+                </div>
+            </Card>
+        )
+    }
+    return null;
+}
 
 class Home extends Component {
 
@@ -27,7 +49,6 @@ class Home extends Component {
             low: 0,
             recommendation: "",
             watchlistStocks: [
-                //{ticker: "IBM", price: 0.00, high: 0.00},
                 {ticker: "None", price: 0, high: 0},
                 {ticker: "None", price: 0, high: 0},
                 {ticker: "None", price: 0, high: 0},
@@ -94,12 +115,9 @@ class Home extends Component {
                 return {"date": elem.fields.date, "close": parseFloat(elem.fields.close)}
             });
             mapped_stocks.reverse()
-            console.log(mapped_stocks);
-            this.setState({
-                stocks: mapped_stocks
-            })
             console.log(response[response.length - 1]);
             this.setState({
+                stocks: mapped_stocks,
                 retrievedStock: input,
                 watchlistStocks: oldWatchlist,
             })
@@ -147,64 +165,59 @@ class Home extends Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr> <td>  {this.state.watchlistStocks[0].ticker} </td>
-                                        <td>  {this.state.watchlistStocks[0].price} </td>
-                                        <td>  {this.state.watchlistStocks[0].high} </td>
-                                        {/* <td><Button>Remove</Button></td> */}
-                                    </tr>
-                                    <tr> <td>  {this.state.watchlistStocks[1].ticker} </td>
-                                        <td>  {this.state.watchlistStocks[1].price} </td>
-                                        <td>  {this.state.watchlistStocks[1].high} </td>
-                                        {/* <td><Button>Remove</Button></td> */}
-
-                                    </tr>
-                                    <tr> <td>  {this.state.watchlistStocks[2].ticker} </td>
-                                        <td>  {this.state.watchlistStocks[2].price} </td>
-                                        <td>  {this.state.watchlistStocks[2].high} </td>
-                                        {/* <td><Button>Remove</Button></td> */}
-
-                                    </tr>
-                                    <tr> <td>  {this.state.watchlistStocks[3].ticker} </td>
-                                        <td>  {this.state.watchlistStocks[3].price} </td>
-                                        <td>  {this.state.watchlistStocks[3].high} </td>
-                                        {/* <td><Button>Remove</Button></td> */}
-
-                                    </tr>
-                                    <tr> <td>  {this.state.watchlistStocks[4].ticker} </td>
-                                        <td>  {this.state.watchlistStocks[4].price} </td>
-                                        <td>  {this.state.watchlistStocks[4].high} </td>
-                                        {/* <td><Button>Remove</Button></td> */}
-                                        </tr>
+                                {
+                                    this.state.watchlistStocks.map(elem => {
+                                        return (
+                                            <tr>
+                                                <td>{elem.ticker}</td>
+                                                <td>{currencyFormatter.format(elem.price)}</td>
+                                                <td>{currencyFormatter.format(elem.high)}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
                                 </tbody>
                             </Table>
+                        </Card>
+                        <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
+                            <CardTitle>
+                                <b>Enter stock ticker</b>
+                                <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
+                                       value={this.state.tickerInput}> </Input>
+                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Enter</button>
+                            </CardTitle>
                         </Card>
 
                     </div>
                     <Card color={`secondary`} inverse className="newcard text-light">
 
                         <div>
-<p></p>
-                            <h4 className="text-light">Stock Market Chart</h4>
 
-                            <LineChart
+                            <h4 className={`text-light graph-header`}>{this.state.retrievedStock === "None" ? "Select a Stock To Begin!" : this.state.retrievedStock}</h4>
+                            <ResponsiveContainer width={`100%`} height={380}>
+                                <LineChart
+                                    margin={{top: 20, right: 30, left: 20, bottom: 5}}
+                                    data={this.state.stocks}
+                                >
 
-                                width={850}
-                                height={360}
-                                margin={{top: 35, right: 30, left: 20, bottom: 5}}
-                                data={this.state.stocks}
-                            >
+                                    <CartesianGrid strokeDasharray="3 3"/>
+                                    <XAxis dataKey="date" stroke="white" angle={-45} height={65} dy={25}
+                                           label={{value: "Date", position: "insideBottomLeft", dy: 10}}/>
+                                    <YAxis dataKey="close" stroke="white"
+                                           label={{
+                                               value: "Close Price",
+                                               position: "insideBottomLeft",
+                                               angle: -90,
+                                               dy: -30
+                                           }}/>
+                                    <Line dot={false} type="monotone" dataKey="close" stroke="rgb(0,200,5)"
+                                          strokeWidth={3}/>
+                                    <Tooltip content={<CustomTooltip/>}/>
+                                    <Line type="monotone" dataKey="date" stroke="#8884d8" activeDot={{r: 8}}/>
 
-                                <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="date" stroke="white"
-                                       label={{value: "Date", position: "insideBottomRight", dy: 10}}/>
-                                <YAxis dataKey="close" stroke="white"
-                                       label={{value: "Close", position: "insideleft", angle: -90, dy: -30}}/>
-                                <Line dot={false} type="monotone" dataKey="close" stroke="rgb(0,200,5)"/>
-                                <Tooltip/>
-                                <Line type="monotone" dataKey="date" stroke="#8884d8" activeDot={{r: 8}}/>
 
-
-                            </LineChart>
+                                </LineChart>
+                            </ResponsiveContainer>
                         </div>
                     </Card>
                 </div>
@@ -219,4 +232,10 @@ class Home extends Component {
 }
 
 let cookiedHome = withCookies(Home);
-export {cookiedHome as Home};
+export
+{
+    cookiedHome
+        as
+            Home
+}
+    ;
