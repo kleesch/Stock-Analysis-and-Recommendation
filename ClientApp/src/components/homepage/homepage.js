@@ -55,15 +55,15 @@ class Home extends Component {
     let response = await fetch(`api/recommendedstocks/getByTicker?ticker=${input}`, requestOptions)
     if (response.status === 200) {
         response = await response.json();
-        response = await JSON.parse(response);
+        // response = await JSON.parse(response);
         const recommendations= {
             ticker: input,
-            recommendation: response.fields.recommendation
+            recommendation: response
     };
     console.log(response[response.length - 1]);
             this.setState({
                 ticker: input,
-                recommendation: response.fields.recommendation
+                recommendation: response
             })
 }
 
@@ -84,12 +84,12 @@ class Home extends Component {
             response = await JSON.parse(response);
             const oldSearch = {
                 ticker: input,
-                price: parseFloat(response[response.length - 1].fields.close, 2),
-                high: parseFloat(response[response.length - 1].fields.high, 2)
+                price: parseFloat(response[0].fields.close, 2),
+                high: parseFloat(response[0].fields.high, 2)
             };
             let oldWatchlist = this.state.watchlistStocks;
             oldWatchlist.splice(0, 0, oldSearch);
-            oldWatchlist.splice(3, 1);
+            oldWatchlist.splice(5, 1);
             let mapped_stocks = response.map((elem) => {
                 return {"date": elem.fields.date, "close": parseFloat(elem.fields.close)}
             });
