@@ -150,30 +150,30 @@ class Home extends Component {
                                 <tr> <td>  {this.state.watchlistStocks[0].ticker} </td>
                                         <td>  {this.state.watchlistStocks[0].price} </td>
                                         <td>  {this.state.watchlistStocks[0].high} </td>
-                                        <td><Button>Remove</Button></td>
+                                        {/* <td><Button>Remove</Button></td> */}
                                     </tr>
                                     <tr> <td>  {this.state.watchlistStocks[1].ticker} </td>
                                         <td>  {this.state.watchlistStocks[1].price} </td>
                                         <td>  {this.state.watchlistStocks[1].high} </td>
-                                        <td><Button>Remove</Button></td>
+                                        {/* <td><Button>Remove</Button></td> */}
 
                                     </tr>
                                     <tr> <td>  {this.state.watchlistStocks[2].ticker} </td>
                                         <td>  {this.state.watchlistStocks[2].price} </td>
                                         <td>  {this.state.watchlistStocks[2].high} </td>
-                                        <td><Button>Remove</Button></td>
+                                        {/* <td><Button>Remove</Button></td> */}
 
                                     </tr>
                                     <tr> <td>  {this.state.watchlistStocks[3].ticker} </td>
                                         <td>  {this.state.watchlistStocks[3].price} </td>
                                         <td>  {this.state.watchlistStocks[3].high} </td>
-                                        <td><Button>Remove</Button></td>
+                                        {/* <td><Button>Remove</Button></td> */}
 
                                     </tr>
                                     <tr> <td>  {this.state.watchlistStocks[4].ticker} </td>
                                         <td>  {this.state.watchlistStocks[4].price} </td>
                                         <td>  {this.state.watchlistStocks[4].high} </td>
-                                        <td><Button>Remove</Button></td>
+                                        {/* <td><Button>Remove</Button></td> */}
                                         </tr>
                                 </tbody>
                             </Table>
