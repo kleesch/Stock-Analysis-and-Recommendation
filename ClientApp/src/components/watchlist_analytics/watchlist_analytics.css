@@ -1,0 +1,21 @@
+﻿.watchlist-div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.watchlist-header {
+    margin: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+.watchlist-header-subtext {
+    margin: 10px;
+}
+
+.watchlist-table {
+    margin: 10px;
+    width: 35%;
+}

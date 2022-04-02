@@ -19,7 +19,7 @@ class PersonViewSet(viewsets.ModelViewSet):
     serializer_class = PersonSerializer
 
     authentication_classes = [TokenAuthentication, BasicAuthentication]
-    permission_classes=[UserPermission]
+    permission_classes = [UserPermission]
 
     # POST api/persons/login
     # Returns a user's token upon successful login request
@@ -34,3 +34,7 @@ class PersonViewSet(viewsets.ModelViewSet):
             print(token.key)
             return Response(status=200, data=token.key)
         return Response(status=204)
+
+    @action(methods=['get'], detail=False, permission_classes=[])
+    def isStaff(self, request):
+        return Response(status=200, data=request.user.is_staff)
