@@ -11,11 +11,7 @@ export class TopBar extends Component {
                     SM Management
                 </NavbarBrand>
                 <Nav className={`me-auto`} navbar>
-                  <NavItem>
-                      <NavLink href={`/login`}>
-                            Login 
-                      </NavLink>
-                    </NavItem> 
+                  
                     <NavItem>
                         <NavLink href={`/homepage`}>
                             Home
@@ -26,7 +22,13 @@ export class TopBar extends Component {
                             About
                         </NavLink>
                     </NavItem>
+                    
                 </Nav> 
+              
+                      <NavLink  href={`/login`} className={`ml-auto text-light`}>
+                            Login
+                      </NavLink>
+                   
             </Navbar>
         )
     }
