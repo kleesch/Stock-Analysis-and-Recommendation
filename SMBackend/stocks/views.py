@@ -1,5 +1,6 @@
+from contextlib import nullcontext
 from django.shortcuts import render
-
+import json
 # Create your views here.
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -62,6 +63,16 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
             return Response(status=200, data=serializers.serialize('json', info), content_type="application/json")
         # No content found; default condition
         return Response(status=204)
+
+    @action(methods=['get'], detail=False)
+    def getByFrequency(self, request):
+      watchedStockObjs = WatchedStock.objects.all()
+      watchedStockFrequencies = {}
+      for record in watchedStockObjs.iterator():
+        if not (record.ticker in watchedStockFrequencies):
+            watchedStockFrequencies[record.ticker] = 0
+        watchedStockFrequencies[record.ticker] += 1
+      return Response(status=200, data=json.dumps(watchedStockFrequencies))
 
 
 class StockRecommendationkViewSet(viewsets.ModelViewSet):
