@@ -33,8 +33,7 @@ class WatchlistAnalytics extends Component {
         }
         let staff = await fetch(`api/persons/isStaff/`, requestOptions)
         let staffData = await staff.json()
-
-        //TODO: Update this to be an actual fetch once implemented
+        
         let watchlistAnalytics = await fetch(`api/watchedstocks/getByFrequency`, requestOptions)
 
         let watchlistDictionary = await watchlistAnalytics.json();

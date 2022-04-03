@@ -8,6 +8,7 @@ import {withCookies, Cookies} from "react-cookie";
 import {Signup} from "./components/signup/signup";
 import {Home} from "./components/homepage/homepage";
 import {WatchlistAnalytics} from "./components/watchlist_analytics/watchlist_analytics";
+import {Recommendations} from "./components/recommendations/recommendations";
 
 
 class App extends Component {
@@ -32,6 +33,7 @@ class App extends Component {
                         <Route path="/homepage" element={< Home/>}/>
                         <Route path="/marketing" element={< Marketing/>}/>
                         <Route path="/watchlist_analytics" element={< WatchlistAnalytics/>}/>
+                        <Route path="/recommendations" element={<Recommendations/>}/>
                         <Route path="/*" element={
                             <Navigate to={`/homepage`} push/>
                         }/>

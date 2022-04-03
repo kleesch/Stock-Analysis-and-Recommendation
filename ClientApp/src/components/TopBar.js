@@ -69,6 +69,11 @@ class TopBar extends Component {
                             About
                         </NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink href={`/recommendations`}>
+                            Recommendations
+                        </NavLink>
+                    </NavItem>
                     { this.state.staff &&
                         <NavItem>
                             <NavLink href={`/watchlist_analytics`}>

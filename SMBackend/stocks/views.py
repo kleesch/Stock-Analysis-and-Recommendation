@@ -99,6 +99,16 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         # No content found; default condition
         return Response(status=204)
 
+    @action(methods=['get'], detail=False)
+    def getRecommendedBuys(self, request):
+        recommended_buys = StockRecommendation.objects.all().filter(recommendation="Buy")
+        return Response(status=200, data=StockRecommendationSerializer(recommended_buys, many=True).data)
+
+    @action(methods=['get'], detail=False)
+    def getRecommendedSells(self, request):
+        recommended_buys = StockRecommendation.objects.all().filter(recommendation="Sell")
+        return Response(status=200, data=StockRecommendationSerializer(recommended_buys, many=True).data)
+
     @action(methods=['put'], detail=False)
     def updateByTicker(self, request):
         to_update_ticker = request.query_params.get('ticker')
@@ -115,4 +125,4 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         record = StockRecommendation.objects.get(ticker=to_update_ticker)
         # Modify data
         record.update_recommendation(new_recommendation)
-        return Response(status=200, data=serializers.serialize('json',[record]))
+        return Response(status=200, data=serializers.serialize('json', [record]))
