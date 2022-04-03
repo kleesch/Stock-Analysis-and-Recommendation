@@ -1,15 +1,16 @@
 ﻿import React, {Component} from "react";
 import {Button, Card, CardTitle, Input, Alert} from "reactstrap";
 import "./Login.css";
-import { withCookies, Cookies } from "react-cookie";
-import { instanceOf } from "prop-types";
+import {withCookies, Cookies} from "react-cookie";
+import {instanceOf} from "prop-types";
+import {Navigate} from "react-router-dom";
 
 
 class Login extends Component {
     static displayName = Login.name;
 
     static propTypes = {
-        cookies: instanceOf(Cookies).isRequired  
+        cookies: instanceOf(Cookies).isRequired
     };
 
     constructor(props) {
@@ -27,9 +28,9 @@ class Login extends Component {
         };
     }
 
-    async loginButtonPress(){
-        if(this.state.token && this.state.username){
-            let alerts=this.state.loginAttemptResponses;
+    async loginButtonPress() {
+        if (this.state.token && this.state.username) {
+            let alerts = this.state.loginAttemptResponses;
             alerts.push({
                 title: "Already Logged In",
                 description: `You are already logged in as ${this.state.username}!`,
@@ -44,11 +45,11 @@ class Login extends Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username: username, password: this.state.passwordInput})
         }
-        let response = await fetch('/api/persons/login/',requestOptions)
-        if (response.status===200){
-            const token=await response.text();
-            this.props.cookies.set("token",token);
-            this.props.cookies.set("username",username);
+        let response = await fetch('/api/persons/login/', requestOptions)
+        if (response.status === 200) {
+            const token = await response.text();
+            this.props.cookies.set("token", token);
+            this.props.cookies.set("username", username);
             let alerts = this.state.loginAttemptResponses
             alerts.push({
                 title: "Login Successful",
@@ -99,6 +100,9 @@ class Login extends Component {
     }
 
     render() {
+        if (this.state.username !== null) {
+            return (<Navigate to={`/homepage`} push />)
+        }
         let alerts = this.generateAlerts(this.state.loginAttemptResponses);
         return (
             <div className="outerContainer">

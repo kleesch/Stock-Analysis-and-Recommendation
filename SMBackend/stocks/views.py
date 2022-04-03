@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.core import serializers
 
+import json
+
 from .models import Stock, DailyStockData, WatchedStock, StockRecommendation
 from .serializers import StockSerializer, DailyStockDataSerializer, WatchedStockSerializer, \
     StockRecommendationSerializer
@@ -63,6 +65,15 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
         # No content found; default condition
         return Response(status=204)
 
+    @action(methods=['get'], detail=False)
+    def getByFrequency(self, request):
+        watchedStockObjs = WatchedStock.objects.all()
+        watchedStockFrequencies = {}
+        for record in watchedStockObjs.iterator():
+            if not (record.ticker in watchedStockFrequencies):
+                watchedStockFrequencies[record.ticker] = 0
+            watchedStockFrequencies[record.ticker] += 1
+        return Response(status=200, data=json.dumps(watchedStockFrequencies))
     @action(methods=['delete'], detail=False)
     def deleteFromWatchlist(self, request):
         to_remove_username = request.query_params.get('username')
@@ -101,6 +112,16 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         # No content found; default condition
         return Response(status=204)
 
+    @action(methods=['get'], detail=False)
+    def getRecommendedBuys(self, request):
+        recommended_buys = StockRecommendation.objects.all().filter(recommendation="Buy")
+        return Response(status=200, data=StockRecommendationSerializer(recommended_buys, many=True).data)
+
+    @action(methods=['get'], detail=False)
+    def getRecommendedSells(self, request):
+        recommended_buys = StockRecommendation.objects.all().filter(recommendation="Sell")
+        return Response(status=200, data=StockRecommendationSerializer(recommended_buys, many=True).data)
+
     @action(methods=['put'], detail=False)
     def updateByTicker(self, request):
         to_update_ticker = request.query_params.get('ticker')
@@ -117,11 +138,4 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         record = StockRecommendation.objects.get(ticker=to_update_ticker)
         # Modify data
         record.update_recommendation(new_recommendation)
-        return Response(status=200, data=serializers.serialize('json',[record]))
-              
-            
-
-
-
-
-
+        return Response(status=200, data=serializers.serialize('json', [record]))

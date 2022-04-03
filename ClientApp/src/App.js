@@ -1,39 +1,41 @@
 ﻿import React, {Component} from "react";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import {Layout} from "./components/Layout";
 import {Marketing} from "./components/marketing/Marketing";
-import { Login } from "./components/login/Login";
-import { instanceOf } from "prop-types";
-import { withCookies, Cookies } from "react-cookie";
-import { Signup } from "./components/signup/signup";
-import { Home } from "./components/homepage/homepage";
+import {Login} from "./components/login/Login";
+import {instanceOf} from "prop-types";
+import {withCookies, Cookies} from "react-cookie";
+import {Signup} from "./components/signup/signup";
+import {Home} from "./components/homepage/homepage";
+import {WatchlistAnalytics} from "./components/watchlist_analytics/watchlist_analytics";
+import {Recommendations} from "./components/recommendations/recommendations";
 
 
 class App extends Component {
-    
+
     static displayName = App.name;
 
     static propTypes = {
-        cookies: instanceOf(Cookies).isRequired  
+        cookies: instanceOf(Cookies).isRequired
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
-                
+
     render() {
         return (
             <Layout>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/login" element={< Login/>}/>
+                        <Route path="/login" element={< Login/>} />
                         <Route path="/signup" element={< Signup/>}/>
                         <Route path="/homepage" element={< Home/>}/>
-                        <Route path="/Marketing" element={< Marketing/>}/>
+                        <Route path="/marketing" element={< Marketing/>}/>
+                        <Route path="/watchlist_analytics" element={< WatchlistAnalytics/>}/>
+                        <Route path="/recommendations" element={<Recommendations/>}/>
                         <Route path="/*" element={
-                            <div className={`text-light`}>
-                                There's nothing here!
-                            </div>
+                            <Navigate to={`/homepage`} push/>
                         }/>
                     </Routes>
                 </BrowserRouter>
