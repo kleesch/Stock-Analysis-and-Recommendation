@@ -158,8 +158,10 @@ class Home extends Component {
                 stocks: mapped_stocks,
                 retrievedStock: input,
             })
+            return true;
         } else {
             this.inputError()
+            return false;
         }
     }
 
@@ -183,8 +185,10 @@ class Home extends Component {
             this.inputError()
             return
         }
-        this.addToWatchlist(input); //TODO: Don't allow adding invalid stocks
-        this.lookup(input);
+        const success = await this.lookup(input);
+        if (success){
+            this.addToWatchlist(input);
+        }
     }
 
     getRecommendationColorClass(recommendation) {
