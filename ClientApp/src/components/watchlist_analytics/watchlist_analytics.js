@@ -35,22 +35,18 @@ class WatchlistAnalytics extends Component {
         let staffData = await staff.json()
 
         //TODO: Update this to be an actual fetch once implemented
-        let watchlistAnalytics = [
-            {
-                ticker: "AAPL",
-                watchers: 15
-            },
-            {
-                ticker: "AMZN",
-                watchers: 17
-            },
-            {
-                ticker: "GOOG",
-                watchers: 9
-            }
-        ]
+        let watchlistAnalytics = await fetch(`api/watchedstocks/getByFrequency`, requestOptions)
 
-        let watchlistData = watchlistAnalytics;
+        let watchlistDictionary = await watchlistAnalytics.json();
+        watchlistDictionary = JSON.parse(watchlistDictionary)
+        
+        let watchlistData = []
+        for (const [key,value] of Object.entries(watchlistDictionary)) {
+            watchlistData.push({
+                ticker: key,
+                watchers: value
+            })
+        }
         watchlistData.sort((a, b) => {
             return b.watchers - a.watchers
         })
