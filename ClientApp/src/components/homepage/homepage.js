@@ -185,20 +185,28 @@ class Home extends Component {
                     <div className="loginContainer4">
                         <Card className="cardRec text-light" color={`secondary`}>
                             <CardTitle><br></br>Recommendation:</CardTitle>
-                            <p><b>{this.state.recommendation === "" ? "None" : this.state.recommendation}</b></p>
+                            <p>
+                                <b>
+                                    {this.state.recommendation === "" ? "None" : this.state.recommendation}
+                                </b>
+                            </p>
 
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
                             <CardTitle>
-                                <b>Enter stock ticker</b>
+                                <b>Enter Stock Ticker</b>
                                 <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
-                                       value={this.state.tickerInput}> </Input>
-                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Add to
-                                    Watchlist
-                                </button>
-                                <button className="RecButton" onClick={this.quickLookup.bind(this)}>Quick Lookup
-                                </button>
-
+                                       value={this.state.tickerInput}/>
+                                <div>
+                                    <Button className="RecButton" onClick={this.quickLookup.bind(this)}
+                                            color={`success`}>
+                                        Lookup
+                                    </Button>
+                                    <Button className="tickerbutton" onClick={this.tickerButton.bind(this)}
+                                            color={`primary`}>
+                                        Watch
+                                    </Button>
+                                </div>
                             </CardTitle>
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
@@ -206,36 +214,43 @@ class Home extends Component {
                                 <b><i>Stock Watchlist</i></b>
                             </CardTitle>
 
-                            <Table className="text-light" hover>
+                            <Table className="text-light">
                                 <tbody>
                                 {
-                                    this.state.watchlistStocks.map(elem => {
-                                        return (
-                                            <tr key={elem.ticker}>
-                                                <td style={{verticalAlign: "middle"}}>
-                                                    {elem.ticker}
-                                                </td>
-                                                <td>
-                                                    <Button onClick={() => {
-                                                        this.lookup(elem.ticker)
-                                                    }}>
-                                                        Display
-                                                    </Button>
-                                                </td>
-                                                <td>
-                                                    <Button onClick={() => {
-                                                        this.removeFromWatchlist(elem.ticker)
-                                                    }}>
-                                                        Remove
-                                                    </Button>
-                                                </td>
-                                                <td style={{verticalAlign: "middle"}}>
-                                                    {elem.recommendation}
-                                                </td>
+                                    this.state.watchlistStocks.length > 0 ? (
+                                        this.state.watchlistStocks.map(elem => {
+                                            return (
+                                                <tr key={elem.ticker}>
+                                                    <td style={{verticalAlign: "middle"}}>
+                                                        {elem.ticker}
+                                                    </td>
+                                                    <td style={{verticalAlign: "middle"}}>
+                                                        {elem.recommendation}
+                                                    </td>
+                                                    <td>
+                                                        <Button onClick={() => {
+                                                            this.lookup(elem.ticker)
+                                                        }} color={`success`}>
+                                                            Show
+                                                        </Button>
+                                                    </td>
+                                                    <td>
+                                                        <Button onClick={() => {
+                                                            this.removeFromWatchlist(elem.ticker)
+                                                        }} color={`danger`}>
+                                                            Delete
+                                                        </Button>
+                                                    </td>
 
-                                            </tr>
-                                        )
-                                    })
+
+                                                </tr>
+                                            )
+                                        })) : (
+                                        <div>
+                                            Click 'Watch' to Add to Watchlist!
+                                        </div>
+                                    )
+
                                 }
                                 </tbody>
                             </Table>
