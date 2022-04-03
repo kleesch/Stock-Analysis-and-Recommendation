@@ -29,6 +29,10 @@
     align-items: center;
     padding: 15px;
 }
+.loginCard4 {
+    align-items: center;
+    padding: 15px;
+}
 
 .loginField2 {
     width: 90%;
@@ -45,8 +49,13 @@
 }
 
 .tickerbutton {
-    width: 90%;
+    width: 70%;
     margin: 5px;
+    border-radius: 10px;
+}
+.RecButton {
+    width: 70%;
+    margin: 0px;
     border-radius: 10px;
 }
 
@@ -59,13 +68,24 @@
     justify-content: right;
     width: 100%;
     margin: 20px;
-    margin-top: 0px;
+    margin-top: 100px;
+    margin-bottom: 200px;
 }
 
 .img1 {
     margin: 5px;
 }
 
-h4 {
-    color: black;
+.graph-header {
+    margin-top: 10px
+}
+
+.cardRec{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: left; 
+    margin-bottom: 20px;
+    margin-top: 100px;
+  
 }

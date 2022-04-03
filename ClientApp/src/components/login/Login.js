@@ -111,6 +111,9 @@ class Login extends Component {
                         <Card color={`secondary`} inverse className="loginCard innerContainerItem">
                             <CardTitle>
                                 <b>Stock Market Management</b>
+                                <br></br>
+                                <p></p>
+                                <p><i>Currently logged in as: </i><b><u>{this.state.username}</u></b></p>
                             </CardTitle>
                             <div className="loginField">
                                 Username: {this.state.usernameInput}
@@ -129,11 +132,16 @@ class Login extends Component {
                             </div>
                             {alerts}
                         </Card>
+                        <Button color="danger" className="signupButton" outline>
+                                Sign Out
+                            </Button>
+                            <br></br>
+                            <p></p>
                         <div className="text-light innerContainerItem">
                             <h6><span>OR</span></h6>
                         </div>
                         <div className="innerContainerItem">
-                            <Button color="danger" className="signupButton" outline href={`/signup`}>
+                            <Button color="success" className="signupButton" outline href={`/signup`}>
                                 Sign Up
                             </Button>
                         </div>
