@@ -55,13 +55,27 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
             return Response(status=400, data="Unspecified Username")
         if not WatchedStock.objects.filter(username=requested_username).exists():
             # Requested username does not exist in our records
-            return Response(status=400, data="Invalid Username")
+            return Response(status=200, data=[])
         info = WatchedStock.objects.all().filter(username=requested_username)
         if info.exists():
             # Return found info
-            return Response(status=200, data=serializers.serialize('json', info), content_type="application/json")
+            return Response(status=200, data=WatchedStockSerializer(info, many=True).data, content_type="application/json")
         # No content found; default condition
         return Response(status=204)
+
+    @action(methods=['delete'], detail=False)
+    def deleteFromWatchlist(self, request):
+        to_remove_username = request.query_params.get('username')
+        to_update_ticker = request.query_params.get('ticker')
+        if not to_update_ticker:
+            return Response(status=400, data="Invalid Ticker")
+        if not to_remove_username:
+            return Response(status=400, data="Invalid Username")
+        if not WatchedStock.objects.all().filter(ticker=to_update_ticker,username=to_remove_username).exists():
+            return Response(status=204, data="Unspecified Response")
+        watchlist = WatchedStock.objects.get(username=to_remove_username, ticker=to_update_ticker)
+        watchlist.remove_watchlist()
+        return Response(status=200, data="Deleted")
 
 
 class StockRecommendationkViewSet(viewsets.ModelViewSet):
@@ -104,3 +118,10 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         # Modify data
         record.update_recommendation(new_recommendation)
         return Response(status=200, data=serializers.serialize('json',[record]))
+              
+            
+
+
+
+
+
