@@ -166,6 +166,19 @@ class Home extends Component {
         this.lookup(input);
     }
 
+    getRecommendationColorClass(recommendation){
+        switch(recommendation){
+            case 'Buy':
+                return 'text-lime'
+            case 'Hold':
+                return 'text-light'
+            case 'Sell':
+                return 'text-red'
+            default:
+                return 'text-light'
+        }
+    }
+
     render() {
         if (this.state.username === null) {
             return (
@@ -185,7 +198,7 @@ class Home extends Component {
                     <div className="loginContainer4">
                         <Card className="cardRec text-light" color={`secondary`}>
                             <CardTitle><br></br>Recommendation:</CardTitle>
-                            <p>
+                            <p className={this.getRecommendationColorClass(this.state.recommendation)}>
                                 <b>
                                     {this.state.recommendation === "" ? "None" : this.state.recommendation}
                                 </b>
