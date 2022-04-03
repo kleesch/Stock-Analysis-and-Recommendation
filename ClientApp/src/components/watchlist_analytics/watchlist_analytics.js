@@ -71,7 +71,7 @@ class WatchlistAnalytics extends Component {
                     Watchlist Popularity Index
                 </h3>
                 <p className={`text-light watchlist-header-subtext`}>
-                    Sorted by Popularity
+                    Sorted by Most Popular, Descending
                 </p>
                 <Table dark striped className={`watchlist-table`}>
                     <thead>
@@ -80,7 +80,7 @@ class WatchlistAnalytics extends Component {
                             Ticker
                         </th>
                         <th>
-                            # Watchers
+                            # Users Watching
                         </th>
                     </tr>
                     </thead>

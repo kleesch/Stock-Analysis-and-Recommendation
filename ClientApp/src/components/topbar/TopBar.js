@@ -2,6 +2,7 @@
 import {Nav, Navbar, NavbarBrand, NavbarText, NavItem, NavLink} from 'reactstrap';
 import {Cookies, withCookies} from "react-cookie";
 import {instanceOf} from "prop-types";
+import './TopBar.css'
 
 class TopBar extends Component {
     static displayName = TopBar.name;
@@ -16,6 +17,7 @@ class TopBar extends Component {
             token: this.props.cookies.get("token") ?? false,
             username: this.props.cookies.get("username") ?? null,
             staff: false,
+            location: null,
             loading: true,
         }
     }
@@ -48,35 +50,36 @@ class TopBar extends Component {
 
 
     render() {
+        let page = window.location.pathname
         return (
             <Navbar color={`dark`} dark light expand="md">
                 <NavbarBrand>
                     SM Management
                 </NavbarBrand>
-                <Nav className={`me-auto`} navbar>
+                <Nav className={`me-auto primary-navbar`} navbar>
                     <NavItem>
-                        <NavLink href={`/login`}>
+                        <NavLink href={`/login`} className={page==='/login' ? 'active' : ''}>
                             Login
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={`/homepage`}>
+                        <NavLink href={`/homepage`} className={page==='/homepage' ? 'active' : ''}>
                             Home
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={`/marketing`}>
+                        <NavLink href={`/marketing`} className={page==='/marketing' ? 'active' : ''}>
                             About
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={`/recommendations`}>
+                        <NavLink href={`/recommendations`} className={page==='/recommendations' ? 'active' : ''}>
                             Recommendations
                         </NavLink>
                     </NavItem>
-                    { this.state.staff &&
+                    {this.state.staff &&
                         <NavItem>
-                            <NavLink href={`/watchlist_analytics`}>
+                            <NavLink href={`/watchlist_analytics`} className={page==='/watchlist_analytics' ? 'active' : ''}>
                                 Watchlist Analytics
                             </NavLink>
                         </NavItem>
@@ -87,5 +90,6 @@ class TopBar extends Component {
     }
 }
 
-let cookiedTopBar = withCookies(TopBar);
+let cookiedTopBar = withCookies(TopBar)
+
 export {cookiedTopBar as TopBar}
