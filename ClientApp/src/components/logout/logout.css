@@ -1,0 +1,56 @@
+﻿
+.outerContainer {
+    height: 100vh;
+    margin: 0;
+    display: flex; 
+    align-items: center;
+}
+
+.innerContainer {
+    width: 100%;
+    text-align: center; 
+    display: flex;
+    justify-content: center;
+}
+
+.innerContainerItem {
+    margin-bottom: 30px;
+}
+
+.loginContainer {
+    width: 30%;
+    align-items: center;
+}
+
+.loginCard {
+    align-items: center;
+    padding: 15px;
+}
+
+.loginField {
+    width: 90%;
+    text-align: left;
+    padding-bottom: 15px;
+}
+
+.buttonField {
+    display: flex;
+    justify-content: end;
+}
+
+h6 {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid white;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+}
+
+h6 span {
+    background:var(--main-bg-color);
+    padding:0 10px;
+}
+
+.signupButton {
+    width: 90%;
+}

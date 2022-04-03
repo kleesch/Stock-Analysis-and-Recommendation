@@ -26,8 +26,10 @@ class PersonViewSet(viewsets.ModelViewSet):
     # Possible Responses: 201 Created, 409 Conflict, 400 Bad Request
     @action(methods=['post'], detail=False, permission_classes=[AllowAny])
     def signup(self, request):
-        if (not "username" in request.data or not "password" in request.data):
+        if "username" not in request.data or "password" not in request.data:
             return Response(status=400, data="Missing Username/Password")
+        if request.data["username"] == "" or request.data["password"] == "":
+            return Response(status=400, data="Username or Password Blank")
         existing_account = User.objects.all().filter(username=request.data["username"])
         if existing_account.exists():
             return Response(status=409, data="Username Exists")
