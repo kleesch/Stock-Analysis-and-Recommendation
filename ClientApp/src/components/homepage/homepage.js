@@ -49,7 +49,9 @@ class Home extends Component {
             low: 0,
             recommendation: "",
             watchlistStocks: [],
+            stocksInWatchlist: null,
             loading: false,
+            inputError: false
         };
     }
 
@@ -65,8 +67,10 @@ class Home extends Component {
         }
         let watchlistData = await fetch(`api/watchedstocks/getByUsername?username=${this.state.username}`, requestOptions)
         if (watchlistData.status === 200) {
+            let stocksInWatchlist = new Set();
             watchlistData = await watchlistData.json()
             watchlistData = watchlistData.map((elem) => {
+                stocksInWatchlist.add(elem.ticker);
                 return {
                     ticker: elem.ticker,
                 }
@@ -77,7 +81,8 @@ class Home extends Component {
                 watchlistData[i]["recommendation"] = recommendationResponse
             }
             this.setState({
-                watchlistStocks: watchlistData
+                watchlistStocks: watchlistData,
+                stocksInWatchlist: stocksInWatchlist
             })
         }
         return;
@@ -153,6 +158,8 @@ class Home extends Component {
                 stocks: mapped_stocks,
                 retrievedStock: input,
             })
+        } else {
+            this.inputError()
         }
     }
 
@@ -160,14 +167,28 @@ class Home extends Component {
         this.lookup(this.state.tickerInput)
     }
 
+    async inputError() {
+        this.setState({
+            inputError: true
+        })
+        await new Promise(r => setTimeout(r, 3000));
+        this.setState({
+            inputError: false
+        })
+    }
+
     async tickerButton() {
         const input = this.state.tickerInput
+        if (this.state.stocksInWatchlist.has(input)) {
+            this.inputError()
+            return
+        }
         this.addToWatchlist(input); //TODO: Don't allow adding invalid stocks
         this.lookup(input);
     }
 
-    getRecommendationColorClass(recommendation){
-        switch(recommendation){
+    getRecommendationColorClass(recommendation) {
+        switch (recommendation) {
             case 'Buy':
                 return 'text-lime'
             case 'Hold':
@@ -209,7 +230,8 @@ class Home extends Component {
                             <CardTitle>
                                 <b>Enter Stock Ticker</b>
                                 <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
-                                       value={this.state.tickerInput}/>
+                                       value={this.state.tickerInput} invalid={this.state.inputError}
+                                       style={{width: "207px"}} tooltip={"test"}/>
                                 <div>
                                     <Button className="RecButton" onClick={this.quickLookup.bind(this)}
                                             color={`success`}>

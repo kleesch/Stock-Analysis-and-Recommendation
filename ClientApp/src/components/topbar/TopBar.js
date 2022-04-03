@@ -39,7 +39,6 @@ class TopBar extends Component {
         this.setState({
             staff: staffData,
         })
-        console.log(this.state.staff)
     }
 
     componentDidMount() {
@@ -55,13 +54,18 @@ class TopBar extends Component {
             this.setState({
                 token: this.props.cookies.get("token") ?? false,
                 username: this.props.cookies.get("username") ?? null,
+                staff: false,
+            })
+            this.loadData().then(() => {
+                this.setState({
+                    loading: false,
+                })
             })
         }
     }
 
     render() {
         let page = this.props.location.pathname
-        console.log(this.props.location)
         return (
             <Navbar color={`dark`} dark light expand="md">
                 <NavbarBrand>
