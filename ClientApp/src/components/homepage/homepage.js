@@ -1,5 +1,5 @@
 ﻿import React, {Component} from "react";
-import {Button, Card, CardTitle, Input, Alert, Table} from "reactstrap";
+import {Button, Card, CardTitle, Input, Alert, Table, ButtonGroup} from "reactstrap";
 import {Navigate} from 'react-router-dom';
 import {useState, useEffect} from "react";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
@@ -49,7 +49,9 @@ class Home extends Component {
             low: 0,
             recommendation: "",
             watchlistStocks: [],
+            stocksInWatchlist: null,
             loading: false,
+            inputError: false
         };
     }
 
@@ -65,8 +67,10 @@ class Home extends Component {
         }
         let watchlistData = await fetch(`api/watchedstocks/getByUsername?username=${this.state.username}`, requestOptions)
         if (watchlistData.status === 200) {
+            let stocksInWatchlist = new Set();
             watchlistData = await watchlistData.json()
             watchlistData = watchlistData.map((elem) => {
+                stocksInWatchlist.add(elem.ticker);
                 return {
                     ticker: elem.ticker,
                 }
@@ -77,7 +81,8 @@ class Home extends Component {
                 watchlistData[i]["recommendation"] = recommendationResponse
             }
             this.setState({
-                watchlistStocks: watchlistData
+                watchlistStocks: watchlistData,
+                stocksInWatchlist: stocksInWatchlist
             })
         }
         return;
@@ -153,6 +158,10 @@ class Home extends Component {
                 stocks: mapped_stocks,
                 retrievedStock: input,
             })
+            return true;
+        } else {
+            this.inputError()
+            return false;
         }
     }
 
@@ -160,10 +169,39 @@ class Home extends Component {
         this.lookup(this.state.tickerInput)
     }
 
+    async inputError() {
+        this.setState({
+            inputError: true
+        })
+        await new Promise(r => setTimeout(r, 3000));
+        this.setState({
+            inputError: false
+        })
+    }
+
     async tickerButton() {
         const input = this.state.tickerInput
-        this.addToWatchlist(input); //TODO: Don't allow adding invalid stocks
-        this.lookup(input);
+        if (this.state.stocksInWatchlist.has(input)) {
+            this.inputError()
+            return
+        }
+        const success = await this.lookup(input);
+        if (success) {
+            this.addToWatchlist(input);
+        }
+    }
+
+    getRecommendationColorClass(recommendation) {
+        switch (recommendation) {
+            case 'Buy':
+                return 'text-lime'
+            case 'Hold':
+                return 'text-light'
+            case 'Sell':
+                return 'text-red'
+            default:
+                return 'text-light'
+        }
     }
 
     render() {
@@ -185,57 +223,75 @@ class Home extends Component {
                     <div className="loginContainer4">
                         <Card className="cardRec text-light" color={`secondary`}>
                             <CardTitle><br></br>Recommendation:</CardTitle>
-                            <p><b>{this.state.recommendation === "" ? "None" : this.state.recommendation}</b></p>
+                            <p className={this.getRecommendationColorClass(this.state.recommendation)}>
+                                <b>
+                                    {this.state.recommendation === "" ? "None" : this.state.recommendation}
+                                </b>
+                            </p>
 
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
                             <CardTitle>
-                                <b>Enter stock ticker</b>
+                                <b>Enter Stock Ticker</b>
                                 <Input className="firstone" placeholder={``} onChange={this.tickerInput.bind(this)}
-                                       value={this.state.tickerInput}> </Input>
-                                <button className="tickerbutton" onClick={this.tickerButton.bind(this)}>Add to
-                                    Watchlist
-                                </button>
-                                <button className="RecButton" onClick={this.quickLookup.bind(this)}>Quick Lookup
-                                </button>
-
+                                       value={this.state.tickerInput} invalid={this.state.inputError}
+                                       style={{width: "207px"}} tooltip={"test"}/>
+                                <div>
+                                    <Button className="RecButton" onClick={this.quickLookup.bind(this)}
+                                            color={`success`}>
+                                        Lookup
+                                    </Button>
+                                    <Button className="tickerbutton" onClick={this.tickerButton.bind(this)}
+                                            color={`primary`}>
+                                        Watch
+                                    </Button>
+                                </div>
                             </CardTitle>
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
                             <CardTitle>
-                                <b><i>Stock Watchlist</i></b>
+                                <b style={{textDecoration: "underline"}}>Stock Watchlist</b>
                             </CardTitle>
 
-                            <Table className="text-light" hover>
+                            <Table className="text-light">
                                 <tbody>
                                 {
-                                    this.state.watchlistStocks.map(elem => {
-                                        return (
-                                            <tr key={elem.ticker}>
-                                                <td style={{verticalAlign: "middle"}}>
-                                                    {elem.ticker}
-                                                </td>
-                                                <td>
-                                                    <Button onClick={() => {
-                                                        this.lookup(elem.ticker)
-                                                    }}>
-                                                        Display
-                                                    </Button>
-                                                </td>
-                                                <td>
-                                                    <Button onClick={() => {
-                                                        this.removeFromWatchlist(elem.ticker)
-                                                    }}>
-                                                        Remove
-                                                    </Button>
-                                                </td>
-                                                <td style={{verticalAlign: "middle"}}>
-                                                    {elem.recommendation}
-                                                </td>
+                                    this.state.watchlistStocks.length > 0 ? (
+                                        this.state.watchlistStocks.map(elem => {
+                                            return (
+                                                <tr key={elem.ticker}>
+                                                    <td style={{verticalAlign: "middle"}}>
+                                                        <b>
+                                                            {elem.ticker}
+                                                        </b>
+                                                    </td>
+                                                    <td style={{verticalAlign: "middle"}} className={this.getRecommendationColorClass(elem.recommendation)}>
+                                                        {elem.recommendation}
+                                                    </td>
+                                                    <td>
+                                                        <ButtonGroup>
+                                                            <Button onClick={() => {
+                                                                this.lookup(elem.ticker)
+                                                            }} color={`success`}>
+                                                                Show
+                                                            </Button>
+                                                            <Button onClick={() => {
+                                                                this.removeFromWatchlist(elem.ticker)
+                                                            }} color={`danger`}>
+                                                                Remove
+                                                            </Button>
+                                                        </ButtonGroup>
+                                                    </td>
 
-                                            </tr>
-                                        )
-                                    })
+
+                                                </tr>
+                                            )
+                                        })) : (
+                                        <div>
+                                            Click 'Watch' to Add to Watchlist!
+                                        </div>
+                                    )
+
                                 }
                                 </tbody>
                             </Table>
@@ -260,7 +316,7 @@ class Home extends Component {
                                                position: "insideBottomLeft",
                                                angle: -90,
                                                dy: -30
-                                           }}/>
+                                           }} domain={['auto','auto']}/>
                                     <Line dot={false} type="monotone" dataKey="close" stroke="rgb(0,200,5)"
                                           strokeWidth={3}/>
                                     <Tooltip content={<CustomTooltip/>}/>

@@ -56,7 +56,7 @@ class Login extends Component {
                 description: "You have been logged in. In the future, you will be redirected home.",
                 success: true
             })
-            this.setState({loginAttemptResponses: alerts, token: token, username: username});
+            this.setState({loginAttemptResponses: alerts, token: this.props.cookies.get("token"), username: this.props.cookies.get("username")});
         } else {
             let alerts = this.state.loginAttemptResponses
             alerts.push({
@@ -88,9 +88,9 @@ class Login extends Component {
 
     generateAlerts(alerts) {
         return (
-            <div>
+            <div style={{width:"90%"}}>
                 {alerts.map((alert, index) =>
-                    <Alert color={alert.success ? 'success' : 'danger'} toggle={() => this.removeAlert(index)}>
+                    <Alert color={alert.success ? 'success' : 'danger'} toggle={() => this.removeAlert(index)} >
                         <h5>{alert.title}</h5>
                         <p>{alert.description}</p>
                     </Alert>
@@ -111,17 +111,14 @@ class Login extends Component {
                         <Card color={`secondary`} inverse className="loginCard innerContainerItem">
                             <CardTitle>
                                 <b>Stock Market Management</b>
-                                <br></br>
-                                <p></p>
-                                <p><i>Currently logged in as: </i><b><u>{this.state.username}</u></b></p>
                             </CardTitle>
                             <div className="loginField">
-                                Username: {this.state.usernameInput}
+                                Username:
                                 <Input placeholder={`Username`} onChange={this.usernameInput.bind(this)}
                                        value={this.state.userNameInput}/>
                             </div>
                             <div className="loginField">
-                                Password: {this.state.passwordInput}
+                                Password:
                                 <Input type="password" placeholder={`Password`} onChange={this.passwordInput.bind(this)}
                                        value={this.state.passwordInput}/>
                             </div>
@@ -132,16 +129,11 @@ class Login extends Component {
                             </div>
                             {alerts}
                         </Card>
-                        <Button color="danger" className="signupButton" outline>
-                                Sign Out
-                            </Button>
-                            <br></br>
-                            <p></p>
                         <div className="text-light innerContainerItem">
                             <h6><span>OR</span></h6>
                         </div>
                         <div className="innerContainerItem">
-                            <Button color="success" className="signupButton" outline href={`/signup`}>
+                            <Button color="danger" className="signupButton" outline href={`/signup`}>
                                 Sign Up
                             </Button>
                         </div>

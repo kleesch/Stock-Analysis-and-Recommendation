@@ -61,7 +61,8 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
         info = WatchedStock.objects.all().filter(username=requested_username)
         if info.exists():
             # Return found info
-            return Response(status=200, data=WatchedStockSerializer(info, many=True).data, content_type="application/json")
+            return Response(status=200, data=WatchedStockSerializer(info, many=True).data,
+                            content_type="application/json")
         # No content found; default condition
         return Response(status=204)
 
@@ -74,6 +75,7 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
                 watchedStockFrequencies[record.ticker] = 0
             watchedStockFrequencies[record.ticker] += 1
         return Response(status=200, data=json.dumps(watchedStockFrequencies))
+    
     @action(methods=['delete'], detail=False)
     def deleteFromWatchlist(self, request):
         to_remove_username = request.query_params.get('username')
@@ -82,7 +84,7 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
             return Response(status=400, data="Invalid Ticker")
         if not to_remove_username:
             return Response(status=400, data="Invalid Username")
-        if not WatchedStock.objects.all().filter(ticker=to_update_ticker,username=to_remove_username).exists():
+        if not WatchedStock.objects.all().filter(ticker=to_update_ticker, username=to_remove_username).exists():
             return Response(status=204, data="Unspecified Response")
         watchlist = WatchedStock.objects.get(username=to_remove_username, ticker=to_update_ticker)
         watchlist.remove_watchlist()

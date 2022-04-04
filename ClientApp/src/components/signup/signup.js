@@ -82,11 +82,19 @@ export class Signup extends Component {
                 success: true
             })
             this.setState({alerts: alerts});
-        } else {
+        } else if (response.status===409){
             let alerts = this.state.alerts
             alerts.push({
                 title: "Username Taken",
                 description: "The username you're using is already taken!",
+                success: false
+            })
+            this.setState({alerts: alerts});
+        } else if (response.status===400){
+            let alerts = this.state.alerts
+            alerts.push({
+                title: "Invalid Username/Password",
+                description: "You cannot leave fields blank!",
                 success: false
             })
             this.setState({alerts: alerts});
@@ -104,7 +112,7 @@ export class Signup extends Component {
 
     generateAlerts(alerts) {
         return (
-            <div>
+            <div style={{width: "90%"}}>
                 {alerts.map((alert, index) =>
                     <Alert color={alert.success ? 'success' : 'danger'} toggle={() => this.removeAlert(index)}>
                         <h5>{alert.title}</h5>

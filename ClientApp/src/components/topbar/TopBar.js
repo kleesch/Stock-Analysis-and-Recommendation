@@ -3,6 +3,7 @@ import {Nav, Navbar, NavbarBrand, NavbarText, NavItem, NavLink} from 'reactstrap
 import {Cookies, withCookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import './TopBar.css'
+import {useLocation} from "react-router-dom";
 
 class TopBar extends Component {
     static displayName = TopBar.name;
@@ -47,49 +48,81 @@ class TopBar extends Component {
             })
         })
     }
-
+    
+    componentDidUpdate(prevProps){
+        if(this.props.location.pathname!==prevProps.location.pathname){
+            this.setState({
+                token: this.props.cookies.get("token") ?? false,
+                username: this.props.cookies.get("username") ?? null,
+                staff: false,
+            })
+            this.loadData().then(() => {
+                this.setState({
+                    loading: false,
+                })
+            })
+        }
+    }
 
     render() {
-        let page = window.location.pathname
+        let page = this.props.location.pathname
         return (
             <Navbar color={`dark`} dark light expand="md">
                 <NavbarBrand>
                     SM Management
                 </NavbarBrand>
                 <Nav className={`me-auto primary-navbar`} navbar>
+
                     <NavItem>
-                        <NavLink href={`/login`} className={page==='/login' ? 'active' : ''}>
-                            Login
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href={`/homepage`} className={page==='/homepage' ? 'active' : ''}>
+                        <NavLink href={`/homepage`} className={page === '/homepage' ? 'active' : ''}>
                             Home
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={`/marketing`} className={page==='/marketing' ? 'active' : ''}>
+                        <NavLink href={`/marketing`} className={page === '/marketing' ? 'active' : ''}>
                             About
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={`/recommendations`} className={page==='/recommendations' ? 'active' : ''}>
+                        <NavLink href={`/recommendations`} className={page === '/recommendations' ? 'active' : ''}>
                             Recommendations
                         </NavLink>
                     </NavItem>
                     {this.state.staff &&
                         <NavItem>
-                            <NavLink href={`/watchlist_analytics`} className={page==='/watchlist_analytics' ? 'active' : ''}>
+                            <NavLink href={`/watchlist_analytics`}
+                                     className={page === '/watchlist_analytics' ? 'active' : ''}>
                                 Watchlist Analytics
                             </NavLink>
                         </NavItem>
                     }
                 </Nav>
+                {
+                    this.state.username === null ? (
+                        <NavLink href={`/login`}
+                                 className={`ml-auto text-light` + (page === '/login' ? ' active' : '')}>
+                            Login
+                        </NavLink>
+                    ) : (
+                        <NavLink href={`/logout`}
+                                 className={`ml-auto text-light` + (page === '/logout' ? ' active' : '')}>
+                            Log Out
+                        </NavLink>
+                    )
+                }
+
+
             </Navbar>
         )
     }
 }
 
-let cookiedTopBar = withCookies(TopBar)
+function withLocationHook(Component) {
+    return function TopBar(props) {
+        const location = useLocation()
+        return <Component {...props} location={location}/>
+    }
+}
 
-export {cookiedTopBar as TopBar}
+
+export default withLocationHook(withCookies(TopBar))
