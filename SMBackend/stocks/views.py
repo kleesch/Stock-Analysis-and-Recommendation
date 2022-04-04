@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from django.core import serializers
 
 import json
+import decimal
 
 from .models import Stock, DailyStockData, WatchedStock, StockRecommendation
 from .serializers import StockSerializer, DailyStockDataSerializer, WatchedStockSerializer, \
@@ -75,7 +76,7 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
                 watchedStockFrequencies[record.ticker] = 0
             watchedStockFrequencies[record.ticker] += 1
         return Response(status=200, data=json.dumps(watchedStockFrequencies))
-    
+
     @action(methods=['delete'], detail=False)
     def deleteFromWatchlist(self, request):
         to_remove_username = request.query_params.get('username')
@@ -91,7 +92,7 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
         return Response(status=200, data="Deleted")
 
 
-class StockRecommendationkViewSet(viewsets.ModelViewSet):
+class StockRecommendationViewSet(viewsets.ModelViewSet):
     queryset = StockRecommendation.objects.all().order_by('ticker')
     serializer_class = StockRecommendationSerializer
 
@@ -107,12 +108,9 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
         if not StockRecommendation.objects.filter(ticker=requested_ticker).exists():
             # Requested ticker does not exist in our records
             return Response(status=400, data="Invalid Ticker")
-        info = StockRecommendation.objects.all().filter(ticker=requested_ticker)
-        if info.exists():
-            # Return found info
-            return Response(status=200, data=info[0].recommendation, content_type="application/json")
-        # No content found; default condition
-        return Response(status=204)
+        info = StockRecommendation.objects.get(ticker=requested_ticker)  # Get record
+        return Response(status=200, data=StockRecommendationSerializer(info, many=False).data,
+                        content_type="application/json")  # Return record
 
     @action(methods=['get'], detail=False)
     def getRecommendedBuys(self, request):
@@ -128,16 +126,20 @@ class StockRecommendationkViewSet(viewsets.ModelViewSet):
     def updateByTicker(self, request):
         to_update_ticker = request.query_params.get('ticker')
         new_recommendation = request.query_params.get('recommendation')
+        new_price = request.query_params.get('price')
         if not to_update_ticker:
             # Ticker field empty
             return Response(status=400, data="Unspecified Ticker")
         if not new_recommendation:
             # No new recommendation
             return Response(status=204, data="Unspecified Recommendation")
+        if not new_price:
+            # Empty price field
+            return Response(status=204, data="Unspecified Price")
         if not StockRecommendation.objects.all().filter(ticker=to_update_ticker).exists():
-            # Requested ticker doess not exist in our records
+            # Requested ticker does not exist in our records
             return Response(status=400, data="Invalid Ticker")
         record = StockRecommendation.objects.get(ticker=to_update_ticker)
         # Modify data
-        record.update_recommendation(new_recommendation)
-        return Response(status=200, data=serializers.serialize('json', [record]))
+        record.update_recommendation(new_recommendation,decimal.Decimal(new_price))
+        return Response(status=200, data=StockRecommendationSerializer(record,many=False).data)

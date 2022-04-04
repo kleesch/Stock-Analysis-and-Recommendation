@@ -5,7 +5,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'stocks', views.StockViewSet)
 router.register(r'dailystocks', views.DailyStockDataViewSet)
-router.register(r'recommendedstocks', views.StockRecommendationkViewSet)
+router.register(r'recommendedstocks', views.StockRecommendationViewSet)
 router.register(r'watchedstocks', views.WatchedStockViewSet)
 
 # Wire up our API using automatic URL routing.
