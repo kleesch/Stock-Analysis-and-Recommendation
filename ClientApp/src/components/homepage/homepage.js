@@ -1,5 +1,5 @@
 ﻿import React, {Component} from "react";
-import {Button, Card, CardTitle, Input, Alert, Table} from "reactstrap";
+import {Button, Card, CardTitle, Input, Alert, Table, ButtonGroup} from "reactstrap";
 import {Navigate} from 'react-router-dom';
 import {useState, useEffect} from "react";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
@@ -186,7 +186,7 @@ class Home extends Component {
             return
         }
         const success = await this.lookup(input);
-        if (success){
+        if (success) {
             this.addToWatchlist(input);
         }
     }
@@ -250,7 +250,7 @@ class Home extends Component {
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard4 innerContainerItem4">
                             <CardTitle>
-                                <b><i>Stock Watchlist</i></b>
+                                <b style={{textDecoration: "underline"}}>Stock Watchlist</b>
                             </CardTitle>
 
                             <Table className="text-light">
@@ -261,24 +261,26 @@ class Home extends Component {
                                             return (
                                                 <tr key={elem.ticker}>
                                                     <td style={{verticalAlign: "middle"}}>
-                                                        {elem.ticker}
+                                                        <b>
+                                                            {elem.ticker}
+                                                        </b>
                                                     </td>
-                                                    <td style={{verticalAlign: "middle"}}>
+                                                    <td style={{verticalAlign: "middle"}} className={this.getRecommendationColorClass(elem.recommendation)}>
                                                         {elem.recommendation}
                                                     </td>
                                                     <td>
-                                                        <Button onClick={() => {
-                                                            this.lookup(elem.ticker)
-                                                        }} color={`success`}>
-                                                            Show
-                                                        </Button>
-                                                    </td>
-                                                    <td>
-                                                        <Button onClick={() => {
-                                                            this.removeFromWatchlist(elem.ticker)
-                                                        }} color={`danger`}>
-                                                            Delete
-                                                        </Button>
+                                                        <ButtonGroup>
+                                                            <Button onClick={() => {
+                                                                this.lookup(elem.ticker)
+                                                            }} color={`success`}>
+                                                                Show
+                                                            </Button>
+                                                            <Button onClick={() => {
+                                                                this.removeFromWatchlist(elem.ticker)
+                                                            }} color={`danger`}>
+                                                                Remove
+                                                            </Button>
+                                                        </ButtonGroup>
                                                     </td>
 
 
@@ -314,7 +316,7 @@ class Home extends Component {
                                                position: "insideBottomLeft",
                                                angle: -90,
                                                dy: -30
-                                           }}/>
+                                           }} domain={['auto','auto']}/>
                                     <Line dot={false} type="monotone" dataKey="close" stroke="rgb(0,200,5)"
                                           strokeWidth={3}/>
                                     <Tooltip content={<CustomTooltip/>}/>
