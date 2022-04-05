@@ -2,8 +2,9 @@
 import {Cookies, withCookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import {Navigate} from "react-router-dom";
-import {Table} from "reactstrap";
+import {Button, Table} from "reactstrap";
 import './recommendations.css'
+
 
 class Recommendations extends Component {
     static propTypes = {
@@ -17,8 +18,14 @@ class Recommendations extends Component {
             username: this.props.cookies.get("username") ?? null,
             buyInfo: null,
             sellInfo: null,
+            navigateTo: null,
             loading: true
         }
+        this.percentFormatter = new Intl.NumberFormat('default', {
+            style: 'percent',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })
     }
 
     async loadData() {
@@ -56,6 +63,7 @@ class Recommendations extends Component {
         })
     }
 
+
     componentDidMount() {
         this.loadData().then(() => {
             this.setState({
@@ -88,8 +96,22 @@ class Recommendations extends Component {
                                 this.state.buyInfo.map((elem) => {
                                     return (
                                         <tr>
-                                            <td>
-                                                {elem.ticker}
+                                            <td style={{
+                                                display: "flex",
+                                                alignItems: "center"
+                                            }}>
+                                                <b style={{width: "50%"}}>
+                                                    {elem.ticker}
+                                                </b>
+                                                <span style={{width: "40%", textAlign: "right", paddingRight: "10px"}}>
+                                                    [{this.percentFormatter.format(elem.average_return)} AHR]
+                                                </span>
+
+                                                <Button size={`sm`} color={`success`} onClick={() => {
+                                                    this.setState({navigateTo: elem.ticker})
+                                                }}>
+                                                    View
+                                                </Button>
                                             </td>
                                         </tr>
                                     )
@@ -113,8 +135,22 @@ class Recommendations extends Component {
                                 this.state.sellInfo.map((elem) => {
                                     return (
                                         <tr>
-                                            <td>
-                                                {elem.ticker}
+                                            <td style={{
+                                                display: "flex",
+                                                alignItems: "center"
+                                            }}>
+                                                <b style={{width: "50%"}}>
+                                                    {elem.ticker}
+                                                </b>
+                                                <span style={{width: "40%", textAlign: "right", paddingRight: "10px"}}>
+                                                    [{this.percentFormatter.format(elem.average_return)} AHR]
+                                                </span>
+
+                                                <Button size={`sm`} color={`success`} onClick={() => {
+                                                    this.setState({navigateTo: elem.ticker})
+                                                }}>
+                                                    View
+                                                </Button>
                                             </td>
                                         </tr>
                                     )
@@ -140,6 +176,10 @@ class Recommendations extends Component {
         } else if (this.state.username === null) { // If user is not logged in
             return (
                 <Navigate to={`/login`} push/> // Direct them to login
+            )
+        } else if (this.state.navigateTo !== null) {
+            return (
+                <Navigate to={`/homepage?ticker=${this.state.navigateTo}`} push/>
             )
         } else { // If all criteria is met, render the table!
             return this.renderTable();

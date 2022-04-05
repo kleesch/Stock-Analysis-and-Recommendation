@@ -1,6 +1,7 @@
 ﻿import React, {Component} from "react";
 import {Button, Card, CardTitle, Input, Alert, Table, ButtonGroup} from "reactstrap";
-import {Navigate} from 'react-router-dom';
+import {Tooltip as BootStrapToolTip} from "reactstrap";
+import {Navigate, useLocation} from 'react-router-dom';
 import {useState, useEffect} from "react";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import "./homepage.css";
@@ -10,6 +11,12 @@ import {instanceOf} from "prop-types";
 const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
+})
+
+const percentFormatter = new Intl.NumberFormat('default', {
+    style: 'percent',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
 })
 
 const CustomTooltip = ({active, payload, label}) => {
@@ -48,8 +55,10 @@ class Home extends Component {
             high: 0,
             low: 0,
             recommendation: "",
+            historicalReturn: "0.00%",
             watchlistStocks: [],
             stocksInWatchlist: null,
+            tooltipOpen: false,
             loading: false,
             inputError: false
         };
@@ -78,7 +87,7 @@ class Home extends Component {
             for (let i = 0; i < watchlistData.length; i++) {
                 let recommendationResponse = await fetch(`api/recommendedstocks/getByTicker?ticker=${watchlistData[i].ticker}`, requestOptions)
                 recommendationResponse = await recommendationResponse.json();
-                watchlistData[i]["recommendation"] = recommendationResponse
+                watchlistData[i]["recommendation"] = recommendationResponse["recommendation"] ?? "None"
             }
             this.setState({
                 watchlistStocks: watchlistData,
@@ -101,7 +110,7 @@ class Home extends Component {
             })
 
         }
-        let addRequest = await fetch(`api/watchedstocks/`, requestOptions)
+        await fetch(`api/watchedstocks/`, requestOptions)
         this.loadWatchlistData();
     }
 
@@ -113,15 +122,51 @@ class Home extends Component {
             })
 
         }
-        let removeRequest = await fetch(`api/watchedstocks/deleteFromWatchlist/?username=${this.state.username}&ticker=${ticker}`, requestOptions)
+        await fetch(`api/watchedstocks/deleteFromWatchlist/?username=${this.state.username}&ticker=${ticker}`, requestOptions)
         this.loadWatchlistData();
+    }
+
+    buildParamsDictionary(paramString) {
+        if (paramString.charAt(0) === "?") {
+            paramString = paramString.slice(1); // Remove ?
+        }
+        let paramsSplit = paramString.split("&") // Get all params
+        let paramsDictionary = {};
+        for (let i = 0; i < paramsSplit.length; i++) {
+            let keyValueSplit = paramsSplit[i].split("=");
+            paramsDictionary[keyValueSplit[0]] = keyValueSplit[1];
+        }
+        return paramsDictionary;
     }
 
     componentDidMount() {
         this.loadWatchlistData().then(() => {
-            this.setState({
-                loading: false
-            })
+            let query = this.props.location.search
+            if (query === "") {
+                if (this.state.watchlistStocks.length > 0) {
+                    this.lookup(this.state.watchlistStocks[0]['ticker']).then(() => {
+                        this.setState({
+                            loading: false
+                        })
+                    })
+                }
+                this.setState({
+                    loading: false
+                })
+            } else {
+                const paramsDictionary = this.buildParamsDictionary(this.props.location.search);
+                if ("ticker" in paramsDictionary) {
+                    this.lookup(paramsDictionary["ticker"]).then(() => {
+                        this.setState({
+                            loading: false
+                        })
+                    })
+                } else {
+                    this.setState({
+                        loading: false
+                    })
+                }
+            }
         });
     }
 
@@ -151,7 +196,13 @@ class Home extends Component {
             if (recommendationResponse.status === 200) {
                 recommendationResponse = await recommendationResponse.json();
                 this.setState({
-                    recommendation: recommendationResponse
+                    recommendation: recommendationResponse["recommendation"],
+                    historicalReturn: percentFormatter.format(recommendationResponse["average_return"])
+                })
+            } else {
+                this.setState({
+                    recommendation: "None",
+                    historicalReturn: "0.00%"
                 })
             }
             this.setState({
@@ -204,7 +255,15 @@ class Home extends Component {
         }
     }
 
+
+    toggleTooltip() {
+        this.setState({
+            tooltipOpen: !this.state.tooltipOpen
+        })
+    }
+
     render() {
+        console.log(this.props.location)
         if (this.state.username === null) {
             return (
                 <Navigate to={`/login`} push/>
@@ -221,13 +280,35 @@ class Home extends Component {
             <div className="outerContainer4">
                 <div className="innerContainer4">
                     <div className="loginContainer4">
-                        <Card className="cardRec text-light" color={`secondary`}>
-                            <CardTitle><br></br>Recommendation:</CardTitle>
-                            <p className={this.getRecommendationColorClass(this.state.recommendation)}>
-                                <b>
+                        <Card className="cardRec text-light" color={`secondary`}
+                              style={{display: "flex", flexDirection: "row", alignItems: "center", height: "80px"}}>
+                            <div style={{width: "50%"}}>
+                                <span style={{textDecoration: "underline"}}>
+                                    Recommendation
+                                </span>
+                                <br/>
+                                <b className={this.getRecommendationColorClass(this.state.recommendation)}>
+
                                     {this.state.recommendation === "" ? "None" : this.state.recommendation}
                                 </b>
-                            </p>
+                            </div>
+                            <div style={{width: "50%"}}>
+                                <span style={{textDecoration: "underline"}} id={"returnTooltip"}>
+                                    Avg. Historic Return
+                                </span>
+
+                                <br/>
+                                <b>
+                                    {this.state.historicalReturn}
+                                </b>
+                            </div>
+                            <BootStrapToolTip target={"returnTooltip"} isOpen={this.state.tooltipOpen}
+                                              toggle={this.toggleTooltip.bind(this)} placement={"right"}>
+                                The Average Historic Return refers to the performance of predicted buy/sell cycles. Each
+                                time the algorithm recommends investors sell a stock, its price is compared to the last
+                                time it was recommended to buy and a return is generated. These returns are averaged and
+                                displayed for the performance of predictions to be judged upon.
+                            </BootStrapToolTip>
 
                         </Card>
                         <Card color={`secondary`} inverse className="loginCard2 innerContainerItem2">
@@ -265,7 +346,8 @@ class Home extends Component {
                                                             {elem.ticker}
                                                         </b>
                                                     </td>
-                                                    <td style={{verticalAlign: "middle"}} className={this.getRecommendationColorClass(elem.recommendation)}>
+                                                    <td style={{verticalAlign: "middle"}}
+                                                        className={this.getRecommendationColorClass(elem.recommendation)}>
                                                         {elem.recommendation}
                                                     </td>
                                                     <td>
@@ -316,7 +398,7 @@ class Home extends Component {
                                                position: "insideBottomLeft",
                                                angle: -90,
                                                dy: -30
-                                           }} domain={['auto','auto']}/>
+                                           }} domain={['auto', 'auto']}/>
                                     <Line dot={false} type="monotone" dataKey="close" stroke="rgb(0,200,5)"
                                           strokeWidth={3}/>
                                     <Tooltip content={<CustomTooltip/>}/>
@@ -338,11 +420,11 @@ class Home extends Component {
 
 }
 
-let cookiedHome = withCookies(Home);
-export
-{
-    cookiedHome
-        as
-            Home
+function withLocationHook(Component) {
+    return function TopBar(props) {
+        const location = useLocation()
+        return <Component {...props} location={location}/>
+    }
 }
-    ;
+
+export default withLocationHook(withCookies(Home))
