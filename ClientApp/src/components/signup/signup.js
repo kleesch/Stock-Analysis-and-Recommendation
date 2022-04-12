@@ -39,20 +39,6 @@ export class Signup extends Component {
         )
     }
 
-    firstnameInput(e) {
-        this.setState({
-                firstnameInput: e.target.value,
-            }
-        )
-    }
-
-    emailInput(e) {
-        this.setState({
-                emailInput: e.target.value,
-            }
-        )
-    }
-
 
     async signupButtonPress() {
         if (this.state.passwordInput !== this.state.passwordConfirmInput) {

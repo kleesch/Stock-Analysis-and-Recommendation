@@ -158,6 +158,7 @@ class Home extends Component {
                 if ("ticker" in paramsDictionary) {
                     this.lookup(paramsDictionary["ticker"]).then(() => {
                         this.setState({
+                            tickerInput: paramsDictionary["ticker"],
                             loading: false
                         })
                     })
