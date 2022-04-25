@@ -60,7 +60,8 @@ class Home extends Component {
             stocksInWatchlist: null,
             tooltipOpen: false,
             loading: false,
-            inputError: false
+            inputError: false,
+            buySellHistory: null,
         };
     }
 
@@ -198,13 +199,20 @@ class Home extends Component {
                 recommendationResponse = await recommendationResponse.json();
                 this.setState({
                     recommendation: recommendationResponse["recommendation"],
-                    historicalReturn: percentFormatter.format(recommendationResponse["average_return"])
+                    historicalReturn: percentFormatter.format(recommendationResponse["total_return"] / recommendationResponse["number_cycles"])
                 })
             } else {
                 this.setState({
                     recommendation: "None",
                     historicalReturn: "0.00%"
                 })
+            }
+            let buySellHistory = await fetch(`api/buysellhistory/getByTicker?ticker=${input}`, requestOptions)
+            if (buySellHistory.status === 200) {
+                buySellHistory = await buySellHistory.json();
+                this.setState({
+                    buySellHistory: buySellHistory
+                });
             }
             this.setState({
                 stocks: mapped_stocks,
@@ -278,6 +286,7 @@ class Home extends Component {
             )
         }
         return (
+
             <div className="outerContainer4">
                 <div className="innerContainer4">
                     <div className="loginContainer4">
@@ -305,9 +314,12 @@ class Home extends Component {
                             </div>
                             <BootStrapToolTip target={"returnTooltip"} isOpen={this.state.tooltipOpen}
                                               toggle={this.toggleTooltip.bind(this)} placement={"right"}>
-                                The Average Historic Return refers to the performance of predicted buy/sell cycles. Each
-                                time the algorithm recommends investors sell a stock, its price is compared to the last
-                                time it was recommended to buy and a return is generated. These returns are averaged and
+                                The Average Historic Return refers to the performance of predicted buy/sell cycles.
+                                Each
+                                time the algorithm recommends investors sell a stock, its price is compared to the
+                                last
+                                time it was recommended to buy and a return is generated. These returns are averaged
+                                and
                                 displayed for the performance of predictions to be judged upon.
                             </BootStrapToolTip>
 
@@ -411,6 +423,62 @@ class Home extends Component {
                         </div>
                     </Card>
                 </div>
+                <Card className={`cardBuySellHistory cardRec text-light`}>
+                    <h4 style={{margin: "5px"}}>
+                    Buy / Sell Cycles
+                    </h4>
+                    {
+                        this.state.buySellHistory === null ?
+                            <div className={`text-light`}>
+                                No History
+                            </div> :
+                            <Table style={{width: "100%"}} dark striped>
+                                <thead style={{width: "100%"}}>
+                                <tr>
+                                    <th className={`text-light`}
+                                        style={{width: "33%"}}>
+                                        Buy Date
+                                    </th>
+                                    <th className={`text-light`}
+                                        style={{width: "33%"}}>
+                                        Sell Date
+                                    </th>
+                                    <th className={`text-light`}
+                                        style={{width: "33%"}}>
+                                        Return
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody style={{border: "0px"}}>
+                                {
+                                    this.state.buySellHistory.map((elem) => {
+                                        return (
+                                            <tr>
+                                                <td className={`text-light`} style={{border: "0px"}}>
+                                                    {new Date(elem.buy_date).toLocaleDateString('en-us', {
+                                                        year: "numeric",
+                                                        month: "long",
+                                                        day: "numeric"
+                                                    })}
+                                                </td>
+                                                <td className={`text-light`} style={{border: "0px"}}>
+                                                    {new Date(elem.sell_date).toLocaleDateString('en-us', {
+                                                        year: "numeric",
+                                                        month: "long",
+                                                        day: "numeric"
+                                                    })}
+                                                </td>
+                                                <td className={`text-light`} style={{border: "0px"}}>
+                                                    {percentFormatter.format(elem.total_return)}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                                </tbody>
+                            </Table>
+                    }
+                </Card>
             </div>
 
 

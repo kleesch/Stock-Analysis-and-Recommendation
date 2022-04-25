@@ -104,7 +104,7 @@ class Recommendations extends Component {
                                                     {elem.ticker}
                                                 </b>
                                                 <span style={{width: "40%", textAlign: "right", paddingRight: "10px"}}>
-                                                    [{this.percentFormatter.format(elem.average_return)} AHR]
+                                                    [{ elem.number_cycles>0 ? this.percentFormatter.format(elem.total_return/elem.number_cycles) : "0.00%"} AHR]
                                                 </span>
 
                                                 <Button size={`sm`} color={`success`} onClick={() => {
@@ -143,7 +143,7 @@ class Recommendations extends Component {
                                                     {elem.ticker}
                                                 </b>
                                                 <span style={{width: "40%", textAlign: "right", paddingRight: "10px"}}>
-                                                    [{this.percentFormatter.format(elem.average_return)} AHR]
+                                                    [{elem.number_cycles>0 ? this.percentFormatter.format(elem.total_return/elem.number_cycles) : "0.00%"} AHR]
                                                 </span>
 
                                                 <Button size={`sm`} color={`success`} onClick={() => {

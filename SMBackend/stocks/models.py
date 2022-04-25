@@ -1,11 +1,20 @@
 from django.db import models
+from datetime import date
 
-
-# Create your models here.
 
 class Stock(models.Model):
     ticker = models.CharField(max_length=5, primary_key=True, unique=True)
     company_info = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.ticker
+
+
+class StockBuyCycle(models.Model):
+    ticker = models.CharField(max_length=5)
+    buy_date = models.DateField()
+    sell_date = models.DateField()
+    total_return = models.DecimalField(max_digits=12, decimal_places=8, default=0)
 
     def __str__(self):
         return self.ticker
@@ -16,18 +25,26 @@ class StockRecommendation(models.Model):
     recommendation = models.CharField(max_length=5)
     buy_price = models.DecimalField(max_digits=10, decimal_places=4, default=0)
     buy_cycle = models.BooleanField(default=False)
-    average_return = models.DecimalField(max_digits=10, decimal_places=8, default=0)
+    total_return = models.DecimalField(max_digits=12, decimal_places=8, default=0)
     number_cycles = models.IntegerField(default=0)
+    buy_date = models.DateField()
 
-    def update_recommendation(self, new_recommendation, new_price):
+    def update_recommendation(self, new_recommendation, new_price, update_date):
         if self.buy_cycle:  # We are currently in a buy cycle, and there is a new recommenda tion!
             if new_recommendation == "Sell":  # If we are selling our stock, then we must calculate the return
                 self.number_cycles += 1  # Increment the number of buy cycles we have had
                 this_return = (new_price - self.buy_price) / self.buy_price  # Calculate the return of this cycle
-                self.average_return = (self.average_return + this_return) / self.number_cycles  # Calculate new average
-                self.buy_cycle = False # We are now out of the buy cycle
+                self.total_return += this_return
+
+                # Archive new record
+                archived_cycle = StockBuyCycle(ticker=self.ticker, buy_date=self.buy_date, sell_date=update_date,
+                                               total_return=this_return)
+                archived_cycle.save()
+
+                self.buy_cycle = False  # We are now out of the buy cycle
         elif new_recommendation == "Buy":  # We are not in a buy cycle, and the new recommendation is to buy!
             self.buy_price = new_price
+            self.buy_date = update_date
             self.buy_cycle = True
         self.recommendation = new_recommendation
         self.save()
